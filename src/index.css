@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,4 +16,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.roboto{
+  font-family: 'Roboto', sans-serif;
+}
+
+.boards-container{
+    background: url('./assets/homeBG.png') no-repeat center/cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    object-fit: contain;
 }
