@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,28 +6,31 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.roboto{
-  font-family: 'Roboto', sans-serif;
+.roboto {
+  font-family: "Roboto", sans-serif;
 }
 
-.boards-container{
-    background: url('./assets/homeBG.png') no-repeat center/cover;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    object-fit: contain;
+.boards-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  object-fit: contain;
+}
+
+.bg-purple-gradient {
+  @apply bg-gradient-to-b from-purple-dark to-purple-light
 }
