@@ -11,12 +11,16 @@ module.exports = {
       cyan: '#2DE2E6',
       red: '#FF4364',
       white: '#FFFFFF',
-      black: '#000000',
+      black: '#000000'
     },
-    extend: {},
+    extend: {
+      backgroudImage: (theme) => ({
+        home: `url(${process.env.PUBLIC_URL}/homeBG.png)`
+      })
+    }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
-}
+  plugins: []
+};

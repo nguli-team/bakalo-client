@@ -1,11 +1,7 @@
-import React from 'react'
-
-const Boards = () => {
+export default function Boards(): JSX.Element {
   return (
     <div className="bg-purple-gradient">
-      <h1 className="p-5 text-3xl">Board</h1>
+      <h1 className="p-5 text-center text-3xl text-yellow">Board</h1>
     </div>
-  )
+  );
 }
-
-export default Boards

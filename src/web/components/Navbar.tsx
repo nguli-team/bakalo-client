@@ -1,14 +1,14 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { boardlist } from '../utils';
 
-export default function Navbar() {
-  const boards = ['a', 'gim', 'ipa', 'mu', 'o', 'or', 'pol', 's', 'teh', 'tv'];
+export default function Navbar(): JSX.Element {
+  const boards = boardlist.map((b) => b.shorthand);
   return (
-    <div className="w-full sticky top-0 p-1 z-10 bg-purple-dark text-white shadow-md flex flex-row justify-between">
+    <nav className="navbar">
       <div>
         {boards.map((board, index) => {
           return (
-            <NavLink key={index} className="px-2" activeClassName="text-cyan" to={`/${board}`}>
+            <NavLink key={index} className="mx-2" activeClassName="text-cyan" to={`/${board}/`}>
               {board}
             </NavLink>
           );
@@ -17,6 +17,6 @@ export default function Navbar() {
       <div>
         <button>Bookmark</button>
       </div>
-    </div>
+    </nav>
   );
 }

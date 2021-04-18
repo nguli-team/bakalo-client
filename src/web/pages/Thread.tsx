@@ -1,10 +1,7 @@
-import React from 'react'
-
-const Thread = () => {
+export default function Thread(): JSX.Element {
   return (
     <div className="bg-purple-gradient">
-      <h1 className="p-5 text-3xl">Thread</h1>
+      <h1 className="p-5 text-center text-3xl text-yellow">Thread</h1>
     </div>
-  )
+  );
 }
-export default Thread

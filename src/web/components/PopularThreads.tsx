@@ -1,6 +1,5 @@
 import './Cards.css';
 import CardItem from './CardItem';
-import { Link } from 'react-router-dom';
 
 enum BoardShorthands {
   TEKNOLOGI = 'teh',
@@ -32,7 +31,7 @@ const mockThread: Thread = {
 };
 
 export default function PopularThreads(): JSX.Element {
-  const popularThreads: Thread[] = Array(15).fill(mockThread);
+  const popularThreads: Thread[] = Array(16).fill(mockThread);
 
   const threadMarkup = popularThreads.map((thread: Thread, idx: number) => (
     <div key={idx} className="m-3">
@@ -47,13 +46,9 @@ export default function PopularThreads(): JSX.Element {
   ));
 
   return (
-    <div className="cards roboto">
-      <h1>Popular Threads</h1>
-      <div className="py-7 grid grid-cols-4">{threadMarkup}</div>
-      <Link to="/">
-        <h3>Buy us a coffee and get exclusive rewards</h3>
-      </Link>
-      <h4>Copyright © 2021 Baka Project All rights reserved.</h4>
+    <div className="container mx-auto p-5">
+      <h1 className="text-center text-4xl text-yellow font-bold my-4">Popular Threads</h1>
+      <div className="py-7 grid lg:grid-cols-4 sm:grid-cols-2">{threadMarkup}</div>
     </div>
   );
 }

@@ -1,36 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-.roboto {
-  font-family: "Roboto", sans-serif;
-}
-
 .boards-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  object-fit: contain;
+  background: url('https://c4.wallpaperflare.com/wallpaper/768/340/909/music-stars-background-80s-wallpaper-preview.jpg');
+  background-position: center;
+  background-size: cover;
 }
 
 .bg-purple-gradient {
-  @apply bg-gradient-to-b from-purple-dark to-purple-light
+  @apply bg-gradient-to-b from-purple-dark to-purple-light;
+}
+
+.navbar {
+  @apply sticky top-0 z-10 py-1 px-5 w-full bg-purple-dark text-white shadow-md;
+  @apply flex flex-row justify-between;
 }

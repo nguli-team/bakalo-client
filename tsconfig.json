@@ -20,6 +20,11 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "baseUrl": ".",
+  "paths": {
+    "@bakalo/web/components": ["./src/web/components/index.ts"],
+    "@bakalo/web/pages": ["./src/web/pages/index.ts"],
+  },
   "include": [
     "src"
   ]
