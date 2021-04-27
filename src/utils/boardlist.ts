@@ -1,10 +1,10 @@
-interface BoardProperties {
+interface Board {
   name: string;
   shorthand: string;
   desc?: string;
 }
 
-export const boardlist: BoardProperties[] = [
+const boardlist: Board[] = [
   { name: 'Politik', shorthand: 'pol' },
   { name: 'Teknologi', shorthand: 'teh' },
   { name: 'Otomotif', shorthand: 'oto' },
@@ -17,3 +17,5 @@ export const boardlist: BoardProperties[] = [
   { name: 'Paranormal', shorthand: 'par' },
   { name: 'Bisnis & Keuangan', shorthand: 'biz' }
 ];
+
+export default boardlist;

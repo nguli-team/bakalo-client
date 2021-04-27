@@ -1,3 +1,4 @@
+import React from 'react';
 import './Cards.css';
 import CardItem from './CardItem';
 
@@ -33,8 +34,8 @@ const mockThread: Thread = {
 export default function PopularThreads(): JSX.Element {
   const popularThreads: Thread[] = Array(16).fill(mockThread);
 
-  const threadMarkup = popularThreads.map((thread: Thread, idx: number) => (
-    <div key={idx} className="m-3">
+  const threadMarkup = popularThreads.map((thread: Thread) => (
+    <div key={thread.opId} className="m-3">
       <CardItem
         src={thread.opImgUrl}
         thread={thread.title}

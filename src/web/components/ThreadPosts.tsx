@@ -1,15 +1,6 @@
+import React from 'react';
 import PostCard from './PostCard';
-
-export interface Post {
-  id: string;
-  repliedTo: string;
-  title?: string;
-  mediaUrl?: string;
-  author?: string;
-  createdAt: string;
-  desc: string;
-  replyCount: number;
-}
+import { Post } from '../../utils/model';
 
 const mockPost: Post = {
   id: '53241',
@@ -22,12 +13,12 @@ const mockPost: Post = {
   replyCount: 2
 };
 
-export default function ThreadPosts() {
+export default function ThreadPosts(): JSX.Element {
   const posts: Post[] = Array(16).fill(mockPost);
 
-  const postsMarkup = posts.map((post, index) => (
+  const postsMarkup = posts.map((post) => (
     <PostCard
-      key={index}
+      key={post.id}
       id={post.id}
       repliedTo={post.repliedTo}
       title={post.title}

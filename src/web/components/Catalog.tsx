@@ -22,9 +22,9 @@ const mockThread: Thread = {
 export default function Catalog(): JSX.Element {
   const threads: Thread[] = Array(16).fill(mockThread);
 
-  const threadsMarkup = threads.map((thread, index) => (
+  const threadsMarkup = threads.map((thread) => (
     <ThreadCard
-      key={index}
+      key={thread.opId}
       opId={thread.opId}
       title={thread.title}
       opImgUrl={thread.opImgUrl}

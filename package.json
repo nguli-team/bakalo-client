@@ -5,12 +5,17 @@
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "autoprefixer": "^9.8.6",
+    "axios": "^0.21.1",
+    "codelyzer": "^6.0.1",
+    "eslint-config-airbnb-typescript-prettier": "^4.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.1",
     "react-lazy-load-image-component": "^1.5.1",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0",
+    "typescript-eslint": "^0.0.1-alpha.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -38,17 +43,17 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^12.20.7",
-    "@types/react-router-dom": "^5.1.7",
-    "prettier": "^2.2.1",
-    "postcss": "^7.0.35",
+    "@craco/craco": "^6.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
+    "@types/node": "^12.20.7",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.0",
-    "@craco/craco": "^6.1.1",
+    "@types/react-router-dom": "^5.1.7",
+    "postcss": "^7.0.35",
+    "prettier": "^2.2.1",
     "typescript": "^4.1.2"
   }
 }

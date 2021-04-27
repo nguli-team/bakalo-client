@@ -1,9 +1,10 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { boardlist } from '../utils';
+import boardlist from '../../utils/boardlist';
 
 export default function BoardsSection(): JSX.Element {
-  const boardsMarkup = boardlist.map((board, idx) => (
-    <Link className="p-2 text-center" key={idx} to={`/${board.shorthand}`}>
+  const boardsMarkup = boardlist.map((board) => (
+    <Link className="p-2 text-center" key={board.shorthand} to={`/${board.shorthand}`}>
       {board.name}
     </Link>
   ));

@@ -1,25 +1,19 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Thread } from '../../utils/model';
 
-interface Props {
-  opId: string;
-  title: string;
-  opImgUrl: string;
-  desc: string;
-  replyCount: number;
-  mediaCount: number;
-}
-
-export default function ThreadCard(props: Props): JSX.Element {
+export default function ThreadCard(props: Thread): JSX.Element {
+  const { opId, title, opImgUrl, desc, replyCount, mediaCount } = props;
   return (
     <div className="rounded shadow-md bg-purple-light text-white p-3">
-      <Link to={`./${props.opId}`}>
+      <Link to={`./${opId}`}>
         <div>
-          <img src={props.opImgUrl} alt={props.opImgUrl} />
+          <img src={opImgUrl} alt={opImgUrl} />
         </div>
         <div className="mt-3 text-center">
-          <h3 className="font-bold">{props.title}</h3>
-          <p className="text-sm tracking-tighter">{`${props.replyCount} replies ${props.mediaCount} media`}</p>
-          <p>{props.desc}</p>
+          <h3 className="font-bold">{title}</h3>
+          <p className="text-sm tracking-tighter">{`${replyCount} replies ${mediaCount} media`}</p>
+          <p>{desc}</p>
         </div>
       </Link>
     </div>
