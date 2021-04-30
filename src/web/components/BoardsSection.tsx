@@ -4,7 +4,7 @@ import boardlist from '../../utils/boardlist';
 
 export default function BoardsSection(): JSX.Element {
   const boardsMarkup = boardlist.map((board) => (
-    <Link className="p-2 text-center" key={board.shorthand} to={`/${board.shorthand}`}>
+    <Link className="p-2 text-center" key={board.shorthand} to={`/${board.shorthand}/`}>
       {board.name}
     </Link>
   ));
