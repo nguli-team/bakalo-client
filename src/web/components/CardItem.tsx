@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 interface Properties {
   path: string;
   label: string;
-  src: string;
-  text: string;
+  src?: string;
+  text?: string;
   thread: string;
 }
 
-export default function CardItem(props: Properties): JSX.Element {
+const CardItem: React.FC<Properties> = (props) => {
   const { path, label, src, text, thread } = props;
 
   return (
     <div className="rounded border border-white bg-purple-light">
       <Link to={path}>
         <figure className="card-item-pic-wrap" data-category={label}>
-          <img className="card-item-img" alt={label} src={src} />
+          {src && <img className="card-item-img" alt={label} src={src} />}
         </figure>
         <div className="p-5">
           <h4 className="text-center text-lg text-cyan ">{thread}</h4>
@@ -25,4 +25,6 @@ export default function CardItem(props: Properties): JSX.Element {
       </Link>
     </div>
   );
-}
+};
+
+export default CardItem;
