@@ -1,11 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import boardlist from '../../utils/boardlist';
+import { Board } from '../../domain/model';
 
-export default function BoardsSection(): JSX.Element {
-  const boardsMarkup = boardlist.map((board) => (
+interface Props {
+  boardList: Board[];
+}
+
+const BoardsSection: React.FC<Props> = (props) => {
+  const { boardList } = props;
+
+  const boardsMarkup = boardList.map((board) => (
     <Link className="p-2 text-center" key={board.shorthand} to={`/${board.shorthand}/`}>
-      {board.name}
+      {board.title}
     </Link>
   ));
 
@@ -22,4 +28,6 @@ export default function BoardsSection(): JSX.Element {
       </div>
     </div>
   );
-}
+};
+
+export default BoardsSection;

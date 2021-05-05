@@ -8,3 +8,4 @@ export { default as ThreadCard } from './ThreadCard';
 export { default as ThreadPosts } from './ThreadPosts';
 export { default as PostCard } from './PostCard';
 export { default as Modal } from './ModalPost';
+export { default as OP } from './OP';
