@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Post, Thread } from '../model';
+import { Post, Thread } from '../../domain/model';
 import { getReplies, getThread } from './ThreadAction';
 import replylist from '../../utils/replylist';
 import threadlist from '../../utils/threadlist';

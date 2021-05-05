@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Board } from '../model';
+import { Board } from '../../domain/model';
 import { getBoards, getPopularThreads, getThreads, setActiveBoard } from './BoardAction';
 import boardlist from '../../utils/boardlist';
 import popularthreadlist from '../../utils/popularthreadlist';

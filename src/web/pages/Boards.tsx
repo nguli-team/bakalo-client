@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../domain/redux/store';
-import { getBoards, getThreads, setActiveBoard } from '../../domain/redux/BoardAction';
+import { AppDispatch, RootState } from '../redux/store';
+import { getBoards, getThreads, setActiveBoard } from '../redux/BoardAction';
 import { Catalog, Modal } from '../components';
 
 export default function Boards(): JSX.Element {

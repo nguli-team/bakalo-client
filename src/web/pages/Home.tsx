@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../domain/redux/store';
-import { getBoards, getPopularThreads } from '../../domain/redux/BoardAction';
+import { AppDispatch, RootState } from '../redux/store';
+import { getBoards, getPopularThreads } from '../redux/BoardAction';
 import { BoardsSection, PopularThread } from '../components';
 
 export default function Home(): JSX.Element {

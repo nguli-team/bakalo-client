@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../domain/redux/store';
+import { RootState } from '../redux/store';
 import { OP, ThreadPosts, Modal } from '../components';
-import { getBoards, setActiveBoard } from '../../domain/redux/BoardAction';
-import { getReplies, getThread } from '../../domain/redux/ThreadAction';
+import { getBoards, setActiveBoard } from '../redux/BoardAction';
+import { getReplies, getThread } from '../redux/ThreadAction';
 
 export default function Thread(): JSX.Element {
   const { boardShorthand } = useParams<{ boardShorthand: string }>();
