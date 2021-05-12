@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { getBoards, getThreads, setActiveBoard } from '../redux/BoardAction';
 import { Catalog, Modal } from '../components';
 
-export default function Boards(): JSX.Element {
+const Boards: React.FC = () => {
   const { boardShorthand } = useParams<{ boardShorthand: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -46,4 +46,5 @@ export default function Boards(): JSX.Element {
       <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
     </div>
   );
-}
+};
+export default Boards;

@@ -3,7 +3,7 @@ import './Cards.css';
 import CardItem from './CardItem';
 import { PopularThread } from '../../domain/model';
 
-export default function PopularThreads(props: { popularThreads: PopularThread[] }): JSX.Element {
+const PopularThreads: React.FC<{ popularThreads: PopularThread[] }> = (props) => {
   const { popularThreads } = props;
 
   const threadMarkup = popularThreads.map((thread: PopularThread) => (
@@ -24,4 +24,5 @@ export default function PopularThreads(props: { popularThreads: PopularThread[] 
       <div className="py-7 grid lg:grid-cols-4 sm:grid-cols-2">{threadMarkup}</div>
     </div>
   );
-}
+};
+export default PopularThreads;

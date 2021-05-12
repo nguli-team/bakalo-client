@@ -1,7 +1,7 @@
 import React from 'react';
 import { Post } from '../../domain/model';
 
-export default function PostCard(props: Post): JSX.Element {
+const PostCard: React.FC<Post> = (props) => {
   const { id, mediaUrl, posterName, createdAt, desc } = props;
 
   return (
@@ -24,4 +24,5 @@ export default function PostCard(props: Post): JSX.Element {
       </div>
     </div>
   );
-}
+};
+export default PostCard;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Thread, Post } from '../../domain/model';
+import { Thread } from '../../domain/model';
 
-export default function ThreadCard(props: Thread & { op: Post }): JSX.Element {
+const ThreadCard: React.FC<Thread> = (props) => {
   const { opId, title, op, replyCount, mediaCount } = props;
   return (
     <div className="rounded shadow-md bg-purple-light text-white p-3">
@@ -18,4 +18,5 @@ export default function ThreadCard(props: Thread & { op: Post }): JSX.Element {
       </Link>
     </div>
   );
-}
+};
+export default ThreadCard;

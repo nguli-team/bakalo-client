@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { getBoards, getPopularThreads } from '../redux/BoardAction';
 import { BoardsSection, PopularThread } from '../components';
 
-export default function Home(): JSX.Element {
+const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -21,4 +21,5 @@ export default function Home(): JSX.Element {
       {popularThreads && <PopularThread popularThreads={popularThreads} />}
     </div>
   );
-}
+};
+export default Home;

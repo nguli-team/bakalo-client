@@ -4,7 +4,7 @@ import FaqList from '../../utils/FaqList';
 import TOS from '../../utils/TermsOfSale';
 import TOU from '../../utils/TermsOfUse';
 
-export default function VIP(): JSX.Element {
+const VIP: React.FC = () => {
   const faqInfo = FaqList.map((faq) => {
     return (
       <div>
@@ -148,4 +148,5 @@ export default function VIP(): JSX.Element {
       </div>
     </div>
   );
-}
+};
+export default VIP;

@@ -23,7 +23,7 @@ const mockThread: Thread = {
   mediaCount: 2
 };
 
-export default function Navbar(): JSX.Element {
+const Navbar: React.FC = () => {
   const boards = boardlist.map((b) => b.shorthand);
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
@@ -92,4 +92,5 @@ export default function Navbar(): JSX.Element {
       </div>
     </nav>
   );
-}
+};
+export default Navbar;

@@ -2,7 +2,7 @@ import React from 'react';
 import ThreadCard from './ThreadCard';
 import { Thread } from '../../domain/model';
 
-export default function Catalog(props: { threads: Thread[] }): JSX.Element {
+const Catalog: React.FC<{ threads: Thread[] }> = (props) => {
   const { threads } = props;
 
   const threadsMarkup = threads.map((thread) => (
@@ -21,4 +21,5 @@ export default function Catalog(props: { threads: Thread[] }): JSX.Element {
       {threadsMarkup}
     </div>
   );
-}
+};
+export default Catalog;

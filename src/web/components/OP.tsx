@@ -1,7 +1,7 @@
 import React from 'react';
 import { Post } from '../../domain/model';
 
-export default function OP(props: { op: Post; title: string }): JSX.Element {
+const OP: React.FC<{ op: Post; title: string }> = (props) => {
   const { title, op } = props;
 
   return (
@@ -25,4 +25,5 @@ export default function OP(props: { op: Post; title: string }): JSX.Element {
       </div>
     </div>
   );
-}
+};
+export default OP;

@@ -1,4 +1,4 @@
-import { Post } from './index';
+import Post from './Post';
 
 export default interface Thread {
   opId: number;

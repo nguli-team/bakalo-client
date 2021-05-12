@@ -7,7 +7,7 @@ import { OP, ThreadPosts, Modal } from '../components';
 import { getBoards, setActiveBoard } from '../redux/BoardAction';
 import { getReplies, getThread } from '../redux/ThreadAction';
 
-export default function Thread(): JSX.Element {
+const Thread: React.FC = () => {
   const { boardShorthand } = useParams<{ boardShorthand: string }>();
   const dispatch = useDispatch();
 
@@ -53,4 +53,5 @@ export default function Thread(): JSX.Element {
       <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
     </div>
   );
-}
+};
+export default Thread;
