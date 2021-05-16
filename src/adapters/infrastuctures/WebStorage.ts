@@ -1,21 +1,33 @@
-export default class WebStorage {
-  private storage: any;
+export default class WebStorage implements Storage {
+  private storage: Storage;
 
-  constructor(storage: any) {
+  length: number;
+
+  constructor(storage: Storage) {
     this.storage = storage;
+    this.length = 0;
   }
 
-  get(key: string): Promise<any> {
-    return new Promise((resolve) => {
-      resolve(this.storage.getItem(key));
-    });
+  getItem(key: string): string | null {
+    return this.storage.getItem(key);
   }
 
-  set(key: string, value: any): void {
-    this.storage.setItem(key, value);
+  setItem(key: string, value: string): void {
+    this.length += 1;
+    return this.storage.setItem(key, value);
   }
 
-  remove(key: string): void {
-    this.storage.removeItem(key);
+  removeItem(key: string): void {
+    this.length -= 1;
+    return this.storage.removeItem(key);
+  }
+
+  clear(): void {
+    this.length = 0;
+    return this.storage.clear();
+  }
+
+  key(index: number): string | null {
+    return this.storage.key(index);
   }
 }
