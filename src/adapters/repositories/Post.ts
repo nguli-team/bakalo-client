@@ -10,8 +10,8 @@ export default class Post implements IPost {
     this.client = client;
   }
 
-  getPost(repliedTo: number): Promise<PostDto[]> {
-    return this.client.get<PostDto[]>(`https://bakalo.li/api/posts?threadId=${repliedTo}`);
+  getPost(threadId: number): Promise<PostDto[]> {
+    return this.client.get<PostDto[]>(`https://bakalo.li/api/posts?threadId=${threadId}`);
   }
 
   createPost(post: PostDto): Promise<PostDto> {

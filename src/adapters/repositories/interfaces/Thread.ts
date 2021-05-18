@@ -1,11 +1,13 @@
 import ThreadDto from '../../dto/ThreadDto';
 import CreateThreadDto from '../../dto/CreateThreadDto';
 import UpdateThreadDto from '../../dto/UpdateThreadDto';
+import { Thread as ThreadModel } from '../../../domain/model';
 
 export default interface Thread {
-  getThread(opId?: number): Promise<ThreadDto | ThreadDto[]>;
+  getThreads(boardId: number): Promise<ThreadDto[]>;
+  getThread(opId: number): Promise<ThreadDto>;
   getPopularThread(): Promise<ThreadDto[]>;
-  createThread(thread: CreateThreadDto): Promise<ThreadDto>;
-  updateThread(opId: number, thread: UpdateThreadDto): Promise<ThreadDto>;
-  removeThread(opId: number): Promise<ThreadDto>;
+  createThread(thread: CreateThreadDto): Promise<ThreadModel>;
+  updateThread(opId: number, thread: UpdateThreadDto): Promise<ThreadModel>;
+  removeThread(opId: number): void;
 }

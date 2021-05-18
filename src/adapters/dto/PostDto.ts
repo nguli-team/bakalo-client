@@ -1,7 +1,7 @@
 export default class PostDto {
   readonly id: number;
 
-  readonly repliedTo?: string[];
+  readonly repliedTo: string;
 
   readonly posterId: string;
 

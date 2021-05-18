@@ -1,6 +1,6 @@
 export default interface Post {
   id: number;
-  repliedTo?: string;
+  repliedTo: string;
   posterId: string;
   mediaUrl?: string;
   posterName?: string;

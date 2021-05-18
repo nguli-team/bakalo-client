@@ -10,10 +10,11 @@ export default class Board implements IBoard {
     this.client = client;
   }
 
-  getBoard(id: number): Promise<BoardDto | BoardDto[]> {
-    if (id) {
-      return this.client.get<BoardDto>(`https://bakalo.li/api/boards/${id}`);
-    }
+  getBoards(): Promise<BoardDto[]> {
     return this.client.get<BoardDto[]>('https://bakalo.li/api/boards');
+  }
+
+  getBoard(id: number): Promise<BoardDto> {
+    return this.client.get<BoardDto>(`https://bakalo.li/api/boards/${id}`);
   }
 }

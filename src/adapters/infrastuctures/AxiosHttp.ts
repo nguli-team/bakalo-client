@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosStatic } from 'axios';
 import { HttpExtraConfig, HttpHeader, Http, HttpRequestBody } from './interfaces/Http';
 
 export default class AxiosHttp implements Required<Http> {
-  private readonly client: typeof axios;
+  private readonly client: AxiosStatic;
 
   constructor() {
     this.client = axios;
@@ -19,9 +19,8 @@ export default class AxiosHttp implements Required<Http> {
     headers?: HttpHeader,
     extraConfig?: HttpExtraConfig
   ): Promise<T> {
-    return this.client.post(url, { headers, data: body, ...extraConfig }).then((response) => {
-      return response.data;
-    });
+    const res = await this.client.post(url, { headers, data: body, ...extraConfig });
+    return res.data as T;
   }
 
   async put<T>(url: string, header: unknown, body: unknown): Promise<T> {

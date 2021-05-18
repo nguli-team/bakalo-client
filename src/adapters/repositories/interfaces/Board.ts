@@ -1,5 +1,6 @@
 import BoardDto from '../../dto/BoardDto';
 
 export default interface Board {
-  getBoard(id?: number): Promise<BoardDto | BoardDto[]>;
+  getBoards(): Promise<BoardDto[]>;
+  getBoard(id: number): Promise<BoardDto>;
 }

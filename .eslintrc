@@ -6,7 +6,8 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "no-useless-constructor": "off"
   }
 }
 

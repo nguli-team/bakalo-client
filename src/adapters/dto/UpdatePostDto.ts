@@ -1,5 +1,5 @@
 export default class UpdatePostDto {
-  readonly repliedTo?: string[];
+  readonly repliedTo: string;
 
   readonly posterId: string;
 
