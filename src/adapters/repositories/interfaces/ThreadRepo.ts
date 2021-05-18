@@ -3,7 +3,7 @@ import CreateThreadDto from '../../dto/CreateThreadDto';
 import UpdateThreadDto from '../../dto/UpdateThreadDto';
 import { Thread as ThreadModel } from '../../../domain/model';
 
-export default interface Thread {
+export default interface ThreadRepo {
   getThreads(boardId: number): Promise<ThreadDto[]>;
   getThread(opId: number): Promise<ThreadDto>;
   getPopularThread(): Promise<ThreadDto[]>;

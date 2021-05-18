@@ -1,8 +1,8 @@
-import IBoard from './interfaces/Board';
+import IBoardRepo from './interfaces/BoardRepo';
 import { Http } from '../infrastuctures';
 import BoardDto from '../dto/BoardDto';
 
-export default class Board implements IBoard {
+export default class BoardRepo implements IBoardRepo {
   // TODO: beresin kalo udah jadi endpoint nya
   readonly client: Http;
 

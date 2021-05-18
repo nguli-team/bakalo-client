@@ -1,5 +1,5 @@
 import IBoardService from './interfaces/BoardService';
-import { Board as BoardRepo } from '../../adapters/repositories/interfaces';
+import { BoardRepo } from '../../adapters/repositories/interfaces';
 import { Board } from '../model';
 
 export default class BoardService implements IBoardService {

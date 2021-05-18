@@ -1,11 +1,9 @@
-import IThread from './interfaces/Thread';
+import IThreadRepo from './interfaces/ThreadRepo';
 import { Http } from '../infrastuctures';
-import ThreadDto from '../dto/ThreadDto';
-import CreateThreadDto from '../dto/CreateThreadDto';
-import UpdateThreadDto from '../dto/UpdateThreadDto';
+import { ThreadDto, CreateThreadDto, UpdateThreadDto } from '../dto';
 import { Thread as ThreadModel } from '../../domain/model';
 
-export default class Thread implements IThread {
+export default class ThreadRepo implements IThreadRepo {
   // TODO: beresin kalo udah jadi enpoint nya
   readonly client: Http;
 

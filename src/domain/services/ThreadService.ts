@@ -1,4 +1,4 @@
-import { Thread as ThreadRepo, Post as PostRepo } from '../../adapters/repositories/interfaces';
+import { ThreadRepo, PostRepo } from '../../adapters/repositories/interfaces';
 import IThreadService from './interfaces/ThreadService';
 import { Thread } from '../model';
 import PostDto from '../../adapters/dto/PostDto';

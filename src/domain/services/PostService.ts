@@ -1,5 +1,5 @@
 import IPostService from './interfaces/PostService';
-import { Post as PostRepo } from '../../adapters/repositories/interfaces';
+import { PostRepo } from '../../adapters/repositories/interfaces';
 import Post from '../model/Post';
 import { PostDto, UpdatePostDto } from '../../adapters/dto';
 

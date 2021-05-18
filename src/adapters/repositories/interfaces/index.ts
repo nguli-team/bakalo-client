@@ -1,3 +1,3 @@
-export type { default as Board } from './Board';
-export type { default as Thread } from './Thread';
-export type { default as Post } from './Post';
+export type { default as BoardRepo } from './BoardRepo';
+export type { default as ThreadRepo } from './ThreadRepo';
+export type { default as PostRepo } from './PostRepo';
