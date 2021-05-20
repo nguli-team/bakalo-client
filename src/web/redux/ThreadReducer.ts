@@ -1,8 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Post, Thread } from '../../domain/model';
 import { getReplies, getThread } from './ThreadAction';
-import replylist from '../../utils/replylist';
-import threadlist from '../../utils/threadlist';
 
 interface ThreadState {
   activeThread?: Thread;
@@ -16,13 +14,13 @@ const initialState: ThreadState = {
 
 const ThreadReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(getThread, (state) => ({
+    .addCase(getThread, (state, action) => ({
       ...state,
-      activeThread: threadlist[0]
+      activeThread: action.payload.thread
     }))
-    .addCase(getReplies, (state) => ({
+    .addCase(getReplies, (state, action) => ({
       ...state,
-      replies: replylist
+      replies: action.payload.posts
     }))
 );
 

@@ -10,6 +10,7 @@ const Catalog: React.FC<{ threads: Thread[] }> = (props) => {
       key={thread.opId}
       opId={thread.opId}
       title={thread.title}
+      boardId={thread.boardId}
       posterCount={thread.posterCount}
       replyCount={thread.replyCount}
       mediaCount={thread.mediaCount}

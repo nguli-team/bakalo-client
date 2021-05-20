@@ -1,9 +1,9 @@
 export default interface Post {
   id: number;
-  repliedTo: string;
+  repliedTo: number;
   posterId: string;
   mediaUrl?: string;
   posterName?: string;
   createdAt: Date;
-  desc: string;
+  text: string;
 }

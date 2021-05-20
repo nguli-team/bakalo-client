@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,23 +6,29 @@ import { RootState } from '../redux/store';
 import { OP, ThreadPosts, Modal } from '../components';
 import { getBoards, setActiveBoard } from '../redux/BoardAction';
 import { getReplies, getThread } from '../redux/ThreadAction';
+import di from '../di';
 
 const Thread: React.FC = () => {
-  const { boardShorthand } = useParams<{ boardShorthand: string }>();
+  const { boardShorthand, threadId } = useParams<{ boardShorthand: string; threadId: string }>();
+  const threadIdNumber = Number(threadId);
   const dispatch = useDispatch();
 
   const boards = useSelector((state: RootState) => state.BoardReducer.boardList).length;
 
-  useEffect(() => {
+  const fetchPageData = useCallback(async () => {
     if (boards > 0) {
       dispatch(setActiveBoard({ boardShorthand }));
     } else {
-      dispatch(getBoards());
+      dispatch(getBoards(await di.services.boardService.getBoards()));
       dispatch(setActiveBoard({ boardShorthand }));
     }
-    dispatch(getThread('opId'));
-    dispatch(getReplies('opId'));
-  }, [dispatch, boardShorthand, boards]);
+    dispatch(getThread(await di.services.threadService.getThread(threadIdNumber)));
+    dispatch(getReplies(await di.services.postService.getPost(threadIdNumber)));
+  }, [boardShorthand, boards, dispatch, threadIdNumber]);
+
+  useEffect(() => {
+    fetchPageData();
+  }, [fetchPageData]);
 
   const boardInfo = useSelector((state: RootState) => state.BoardReducer.activeBoard);
   const thread = useSelector((state: RootState) => state.ThreadReducer.activeThread);

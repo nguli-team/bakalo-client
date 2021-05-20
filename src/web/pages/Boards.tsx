@@ -1,25 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { getBoards, getThreads, setActiveBoard } from '../redux/BoardAction';
 import { Catalog, Modal } from '../components';
+import di from '../di';
 
 const Boards: React.FC = () => {
   const { boardShorthand } = useParams<{ boardShorthand: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
-  const boards = useSelector((state: RootState) => state.BoardReducer.boardList).length;
+  const boards = useSelector((state: RootState) => state.BoardReducer.boardList);
 
-  useEffect(() => {
-    if (boards > 0) {
+  const fetchPageData = useCallback(async () => {
+    if (boards.length > 0) {
       dispatch(setActiveBoard({ boardShorthand }));
     } else {
-      dispatch(getBoards());
+      dispatch(getBoards(await di.services.boardService.getBoards()));
       dispatch(setActiveBoard({ boardShorthand }));
     }
-    dispatch(getThreads({ boardId: 123142 }));
-  }, [boards, dispatch, boardShorthand]);
+    dispatch(getThreads(await di.services.threadService.getThreads(1)));
+  }, [boardShorthand, boards.length, dispatch]);
+
+  useEffect(() => {
+    // TODO: give feedback to UI
+    // eslint-disable-next-line no-console
+    fetchPageData().catch(console.error);
+  }, [fetchPageData]);
 
   const boardInfo = useSelector((state: RootState) => state.BoardReducer.activeBoard);
   const threads = useSelector((state: RootState) => state.BoardReducer.threadList);

@@ -1,21 +1,24 @@
-import { Thread } from '../domain/model';
+import { PostDto, ThreadDto } from '../adapters/dto';
 
-const mockThread: Thread = {
-  opId: 1,
+const mockThread: ThreadDto = {
+  opId: 123,
+  boardId: 2,
   title: 'How exactly C makes you a better programming?',
   posterCount: 15,
   replyCount: 25,
-  mediaCount: 2,
-  op: {
-    id: 31231,
-    posterId: '1231512',
-    mediaUrl:
-      'https://static01.nyt.com/images/2016/09/28/us/17xp-pepethefrog_web1/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
-    desc: "Why use C when there's C++ that can do more?",
-    createdAt: new Date()
-  }
+  mediaCount: 2
 };
 
-const threadlist: Thread[] = Array(16).fill(mockThread);
+export const op: PostDto = {
+  id: 123,
+  posterId: '1231512',
+  repliedTo: 0,
+  mediaUrl:
+    'https://static01.nyt.com/images/2016/09/28/us/17xp-pepethefrog_web1/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
+  text: "Why use C when there's C++ that can do more?",
+  createdAt: 1621406917
+};
+
+const threadlist: ThreadDto[] = Array(16).fill(mockThread);
 
 export default threadlist;

@@ -1,7 +1,6 @@
 import { ThreadRepo, PostRepo } from '../../adapters/repositories/interfaces';
 import IThreadService from './interfaces/ThreadService';
 import { Thread } from '../model';
-import PostDto from '../../adapters/dto/PostDto';
 import ThreadDto from '../../adapters/dto/ThreadDto';
 
 export default class ThreadService implements IThreadService {
@@ -14,12 +13,12 @@ export default class ThreadService implements IThreadService {
 
   async getThreads(boardId: number): Promise<Thread[]> {
     const threadsDto = await this.threadRepo.getThreads(boardId);
-    return Promise.all(threadsDto.map(this.mapThreadDtoToThread));
+    return Promise.all(threadsDto.map(this.mapThreadDtoToThread.bind(this)));
   }
 
   async getPopularThread(): Promise<Thread[]> {
     const threadsDto = await this.threadRepo.getPopularThread();
-    return Promise.all(threadsDto.map(this.mapThreadDtoToThread));
+    return Promise.all(threadsDto.map(async (threadDto) => this.mapThreadDtoToThread(threadDto)));
   }
 
   createThread(thread: ThreadDto): Promise<Thread> {
@@ -35,11 +34,11 @@ export default class ThreadService implements IThreadService {
   }
 
   private async mapThreadDtoToThread(threadDto: ThreadDto): Promise<Thread> {
-    const postsDto = await this.postRepo.getPost(threadDto.opId);
-    const op = postsDto.find((p) => p.id === threadDto.opId) as PostDto;
+    const op = await this.postRepo.getPost(threadDto.opId);
 
     return {
       opId: threadDto.opId,
+      boardId: threadDto.boardId,
       title: threadDto.title,
       op: { ...op, createdAt: new Date(op.createdAt) },
       posterCount: threadDto.posterCount,

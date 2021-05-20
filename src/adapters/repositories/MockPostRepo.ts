@@ -3,20 +3,24 @@ import IPostRepo from './interfaces/PostRepo';
 import PostDto from '../dto/PostDto';
 import UpdatePostDto from '../dto/UpdatePostDto';
 import { Post } from '../../domain/model';
+import replylist from '../../utils/replylist';
+import { op } from '../../utils/threadlist';
 
-export default class PostRepo implements IPostRepo {
+export default class MockPostRepo implements IPostRepo {
   readonly client: Http;
 
   constructor(client: Http) {
     this.client = client;
   }
 
-  getPosts(threadId: number): Promise<PostDto[]> {
-    return this.client.get<PostDto[]>(`https://bakalo.li/api/posts?threadId=${threadId}`);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
+  async getPosts(threadId: number): Promise<PostDto[]> {
+    return replylist;
   }
 
-  getPost(id: number): Promise<PostDto> {
-    return this.client.get<PostDto>(`https://bakalo.li/api/posts/${id}`);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
+  async getPost(id: number): Promise<PostDto> {
+    return op;
   }
 
   createPost(post: PostDto): Promise<Post> {

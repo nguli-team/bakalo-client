@@ -1,7 +1,7 @@
 export default class PostDto {
   readonly id: number;
 
-  readonly repliedTo: string;
+  readonly repliedTo: number;
 
   readonly posterId: string;
 
@@ -11,5 +11,5 @@ export default class PostDto {
 
   readonly createdAt: number;
 
-  readonly desc: string;
+  readonly text: string;
 }

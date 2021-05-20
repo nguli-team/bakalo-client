@@ -13,7 +13,7 @@ const ThreadCard: React.FC<Thread> = (props) => {
         <div className="mt-3 text-center">
           <h3 className="font-bold">{title}</h3>
           <p className="text-sm tracking-tighter">{`${replyCount} replies ${mediaCount} media`}</p>
-          <p>{op.desc}</p>
+          <p>{op.text}</p>
         </div>
       </Link>
     </div>

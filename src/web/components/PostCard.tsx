@@ -2,7 +2,7 @@ import React from 'react';
 import { Post } from '../../domain/model';
 
 const PostCard: React.FC<Post> = (props) => {
-  const { id, mediaUrl, posterName, createdAt, desc } = props;
+  const { id, mediaUrl, posterName, createdAt, text } = props;
 
   return (
     <div className="rounded-md shadow-md bg-purple-dark p-3 text-white">
@@ -18,7 +18,7 @@ const PostCard: React.FC<Post> = (props) => {
             <span className="font-semibold text-cyan">{posterName || 'Anonymous'}</span>
             {` No.${id} ${createdAt}`}
           </p>
-          <p className="my-5">{desc}</p>
+          <p className="my-5">{text}</p>
           <p className="text-sm tracking-tighter">replies</p>
         </div>
       </div>

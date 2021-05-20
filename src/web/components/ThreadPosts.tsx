@@ -14,7 +14,7 @@ const ThreadPosts: React.FC<{ posts: Post[] }> = (props) => {
       posterName={post.posterName}
       createdAt={post.createdAt}
       posterId={post.posterId}
-      desc={post.desc}
+      text={post.text}
     />
   ));
 

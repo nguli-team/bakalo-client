@@ -1,6 +1,6 @@
-import { Board } from '../domain/model';
+import { BoardDto } from '../adapters/dto';
 
-const boardlist: Board[] = [
+const boardlist: BoardDto[] = [
   { id: 0, title: 'Politik', shorthand: 'pol' },
   { id: 1, title: 'Teknologi', shorthand: 'teh' },
   { id: 2, title: 'Otomotif', shorthand: 'oto' },

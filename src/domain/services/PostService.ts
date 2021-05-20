@@ -6,6 +6,20 @@ import { PostDto, UpdatePostDto } from '../../adapters/dto';
 export default class PostService implements IPostService {
   constructor(private readonly postRepo: PostRepo) {}
 
+  async getPost(threadId: number): Promise<Post[]> {
+    const postsDto = await this.postRepo.getPosts(threadId);
+
+    return postsDto.map((post) => ({
+      id: post.id,
+      repliedTo: post.repliedTo,
+      mediaUrl: post.mediaUrl,
+      posterId: post.posterId,
+      posterName: post.posterName,
+      text: post.text,
+      createdAt: new Date(post.createdAt)
+    }));
+  }
+
   async createPost(post: PostDto): Promise<Post> {
     return this.postRepo.createPost(post);
   }

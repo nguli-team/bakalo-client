@@ -1,15 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Board } from '../../domain/model';
+import { Board, Thread } from '../../domain/model';
 import { getBoards, getPopularThreads, getThreads, setActiveBoard } from './BoardAction';
-import boardlist from '../../utils/boardlist';
-import popularthreadlist from '../../utils/popularthreadlist';
-import threadlist from '../../utils/threadlist';
 
 export interface BoardState {
   boardList: Board[];
   activeBoard?: Board;
-  popularThreads: typeof popularthreadlist;
-  threadList: typeof threadlist;
+  popularThreads: Thread[];
+  threadList: Thread[];
 }
 
 const initialState: BoardState = {
@@ -21,21 +18,21 @@ const initialState: BoardState = {
 
 const BoardReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(getBoards, (state) => ({
+    .addCase(getBoards, (state, action) => ({
       ...state,
-      boardList: boardlist
+      boardList: action.payload.boardList
     }))
     .addCase(setActiveBoard, (state, action) => ({
       ...state,
       activeBoard: state.boardList.find((b) => b.shorthand === action.payload.boardShorthand)
     }))
-    .addCase(getThreads, (state) => ({
+    .addCase(getThreads, (state, action) => ({
       ...state,
-      threadList: threadlist
+      threadList: action.payload.threadList
     }))
-    .addCase(getPopularThreads, (state) => ({
+    .addCase(getPopularThreads, (state, action) => ({
       ...state,
-      popularThreads: popularthreadlist
+      popularThreads: action.payload.popularThreads
     }))
 );
 

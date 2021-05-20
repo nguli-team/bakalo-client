@@ -19,7 +19,7 @@ const OP: React.FC<{ op: Post; title: string }> = (props) => {
             <span className="font-semibold text-cyan">{op.posterName || 'Anonymous'}</span>
             {` No.${op.id} ${op.createdAt}`}
           </p>
-          <p className="my-5">{op.desc}</p>
+          <p className="my-5">{op.text}</p>
           <p className="text-sm tracking-tighter">replies</p>
         </div>
       </div>
