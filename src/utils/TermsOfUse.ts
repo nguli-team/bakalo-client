@@ -7,40 +7,40 @@ const TOU = [
   {
     num: 1,
     text:
-      'You understand that the service being offered only allows you to bypass entering a CAPTCHA verification on the bakalo image and discussion boards while using an authorized device.'
+      'Anda memahami bahwa layanan yang ditawarkan hanya memungkinkan Anda untuk melewati verifikasi CAPTCHA pada gambar bakalo dan papan diskusi saat menggunakan perangkat resmi.'
   },
   {
     num: 2,
     text:
-      'A Pass may be used to authorize multiple devices, but can only be associated with one IP address at a time. This IP may only be changed once every 30 minutes.'
+      'Pass dapat digunakan untuk mengotorisasi beberapa perangkat, tetapi hanya dapat dikaitkan dengan satu alamat IP dalam satu waktu. IP ini hanya dapat diubah setiap 30 menit sekali.'
   },
   {
     num: 3,
-    text: 'Passes are for individual use by the purchaser only.'
+    text: 'Pass hanya untuk penggunaan individu oleh pembeli.'
   },
   {
     num: 4,
     text:
-      '4. Passes may not be shared, transferred, or sold. Passes that are found to violate this term will be revoked.'
+      'Pass tidak boleh dibagikan, ditransfer, atau dijual. Pass yang melanggar ketentuan ini akan dicabut.'
   },
   {
     num: 5,
     text:
-      'Posting spam messages, advertising of any kind, or other content that violates United States law to bakalo will result in immediate revocation of the Pass with no refund given.'
+      'Anda harus mengaktifkan cookie browser untuk menggunakan Pass Anda. JavaScript bersifat opsional, tetapi disarankan.'
   },
   {
     num: 6,
     text:
-      'You must have browser cookies enabled to use your Pass. JavaScript is optional, but recommended.'
+      'Anda harus mengaktifkan cookie browser untuk menggunakan Pass Anda. JavaScript bersifat opsional, tetapi disarankan.'
   },
   {
     num: 7,
-    text: 'Passes are valid for 12 months from date of purchase.'
+    text: 'Pass berlaku selama 12 bulan sejak tanggal pembelian.'
   },
   {
     num: 8,
     text:
-      'You agree to comply with the Rules of bakalo, and understand that failure to do so may result in the temporary or permanent suspension, in bakalo sole discretion, of your posting privileges. Suspended ("banned") users shall not be eligible for a refund and will not have lost time credited to their Pass account.'
+      'Anda setuju untuk mematuhi Aturan bakalo, dan memahami bahwa kegagalan untuk melakukannya dapat mengakibatkan penangguhan sementara atau permanen, atas kebijakan bakalo, hak istimewa Anda untuk memposting. Pengguna yang ditangguhkan ("dilarang") tidak berhak atas pengembalian dana dan tidak akan kehilangan waktu yang dikreditkan ke akun Pass mereka.'
   },
   {
     num: 9,
@@ -50,11 +50,11 @@ const TOU = [
   {
     num: 10,
     text:
-      'In no event will bakalo or any of its employees or affiliates be liable for any damages relating to the Passes in excess of the prorated portion—in relation to the date you bought the Pass—of the amount (in USD) you spent to buy the Pass.'
+      'Dalam keadaan apa pun, bakalo atau karyawan atau afiliasinya tidak akan bertanggung jawab atas segala kerusakan yang berkaitan dengan Pass yang melebihi porsi prorata — terkait dengan tanggal Anda membeli Pass — dari jumlah (dalam USD) yang Anda keluarkan untuk membeli Lulus.'
   },
   {
     num: 11,
-    text: 'These terms are subject to change without notice.'
+    text: 'Persyaratan ini dapat berubah tanpa pemberitahuan.'
   }
 ];
 

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { MenuIcon, BookmarkIcon } from '@heroicons/react/solid';
+import { useMediaQuery } from 'react-responsive';
+import { useSelector } from 'react-redux';
+import { MenuIcon, BookmarkIcon, ChevronDownIcon } from '@heroicons/react/solid';
 import { BookmarkIcon as BookmarkIconOutline } from '@heroicons/react/outline';
+import { RootState } from '../redux/store';
 import boardlist from '../../utils/boardlist';
 
 interface Thread {
@@ -24,6 +27,19 @@ const mockThread: Thread = {
 };
 
 const Navbar: React.FC = () => {
+  const activeBoards = useSelector((state: RootState) => state.BoardReducer.activeBoard);
+
+  const isDesktop = useMediaQuery({
+    query: '(min-device-width: 	1280px)'
+  });
+
+  const isMobile = useMediaQuery({
+    query: '(max-device-width: 640px)'
+  });
+
+  const [dropDown, setDropDown] = useState(false);
+  const showDropDown = () => setDropDown(!dropDown);
+
   const boards = boardlist.map((b) => b.shorthand);
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
@@ -50,9 +66,9 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <nav className="navbar">
-      <div className="flex flex-row">
-        <button type="button" onClick={showSidebar}>
+    <nav className="navbar w-full">
+      <div className="flex flex-row justify-start w-full">
+        <button type="button" onClick={showSidebar} className="col-span-1">
           <MenuIcon className="h-5 sm:w-10 mt-1" />{' '}
         </button>
         {sidebar && (
@@ -77,18 +93,56 @@ const Navbar: React.FC = () => {
             </button>
           </div>
         )}
-        {boards.map((board) => {
-          return (
-            <NavLink
-              key={board}
-              className="mx-0.5 sm:mx-2"
-              activeClassName="text-cyan"
-              to={`/${board}/`}
-            >
-              {board}
-            </NavLink>
-          );
-        })}
+        <div className="flex-grow">
+          {isDesktop && (
+            <div>
+              {boards.map((board) => {
+                return (
+                  <NavLink
+                    key={board}
+                    className="mx-0.5 sm:mx-2"
+                    activeClassName="text-cyan"
+                    to={`/${board}/`}
+                  >
+                    {board}
+                  </NavLink>
+                );
+              })}
+            </div>
+          )}
+          {isMobile && (
+            <div className="dropdown inline-block p-2 w-full">
+              <button
+                type="button"
+                className="text-white font-semibold px-2 rounded inline-flex items-center w-full justify-between"
+                onClick={showDropDown}
+              >
+                <span>
+                  /{activeBoards?.shorthand}/ - {activeBoards?.title}
+                </span>
+                <ChevronDownIcon className="h-5 sm:w-10 mt-1" />
+              </button>
+              {dropDown && (
+                <ul className="dropdown-menu p-3 absolute block bg-purple-darkLight w-3/4 shadow-2xl">
+                  {boardlist.map((board) => {
+                    return (
+                      <li>
+                        <NavLink
+                          key={board.shorthand}
+                          className="bg-purple-darkLight text-white"
+                          activeClassName="text-cyan"
+                          to={`/${board.shorthand}/`}
+                        >
+                          /{board.shorthand}/ - {board.title}
+                        </NavLink>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

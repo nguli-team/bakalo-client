@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import FaqList from '../../utils/FaqList';
 import TOS from '../../utils/TermsOfSale';
 import TOU from '../../utils/TermsOfUse';
+import { ModalVIP } from '../components';
 
 const VIP: React.FC = () => {
   const faqInfo = FaqList.map((faq) => {
@@ -31,52 +32,51 @@ const VIP: React.FC = () => {
     );
   });
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
   return (
     <div className="flex bg-gradient-to-b from-purple-dark via-purple-darkLight to-purple-light w-full min-h-screen text-white justify-center">
       <div className="flex-1 my-20">
         <div className="grid grid-cols-2 gap-4 lg:mx-48">
           <div className="col-span-2 box-border relative">
             <div className="shadow-xl">
-              <p className="p-2 ml-2">Support bakalo-- buy a VIP Ticket</p>
+              <p className="p-2 ml-2">Support bakalo-- beli Tiket VIP</p>
             </div>
             <div className="p-2 mx-2 text-sm my-2">
               <p>
-                A bakalo Pass allows users to bypass typing a CAPTCHA verification when posting and
-                reporting posts on the bakalo image and discussion boards. The idea for Passes came
-                directly from the community and were introduced as a way for users to show their
-                support and receive a convenient feature in return. Passes cost $20 per year, which
-                is about $1.67 per month—or less than a single 20oz bottle of soda.
+                Bakalo Pass memungkinkan pengguna melewati pengetikan verifikasi CAPTCHA saat
+                memposting dan melaporkan posting di gambar bakalo dan papan diskusi. Ide untuk
+                Passes datang langsung dari komunitas dan diperkenalkan sebagai cara bagi pengguna
+                untuk menunjukkannya mendukung dan menerima fitur yang nyaman sebagai imbalan. Tiket
+                masuk berharga $ 20 per tahun, yang mana sekitar $ 1,67 per bulan — atau kurang dari
+                satu botol soda berukuran 20oz.
               </p>
 
               <p className="mt-2">
-                Forgot your PIN? Reset it{' '}
-                <Link to="/" className="text-yellow">
+                Lupa PIN? Reset di{' '}
+                <Link to="/Reset/" className="text-yellow hover:opacity-60">
                   {' '}
-                  here.
+                  sini.
                 </Link>{' '}
               </p>
 
               <p className="mt-2">
-                If your Pass has expired or is expiring in less than 6 months, you can renew it
-                <Link to="/" className="text-yellow">
-                  {' '}
-                  here.
-                </Link>
-              </p>
-
-              <p className="mt-2">
-                If you have trouble purchasing a bakalo Pass, please e-mail bakalo@lolo.com
+                Jika Anda kesulitan membeli bakalo Pass, silakan kirim email ke bakalo@lolo.com
               </p>
             </div>
           </div>
           <div className="col-span-2 sm:col-span-1">
             <div className="bg-purple-dark box-border relative">
               <div className="shadow-xl">
-                <p className="p-2 ml-2">Purchase a VIP Ticket</p>
+                <p className="p-2 ml-2">Beli Tiket VIP</p>
               </div>
               <form action="">
                 <div className="flex flex-col mx-10 my-5">
-                  <h3>Your E-mail</h3>
+                  <h3>E-mail Anda</h3>
                   <input
                     className="my-2 px-2  w-full sm:w-1/2  text-black"
                     type="email"
@@ -84,23 +84,16 @@ const VIP: React.FC = () => {
                     placeholder=""
                   />
 
-                  <h3>Verify E-mail</h3>
+                  <h3>Verifikasi E-mail</h3>
                   <input
-                    className="my-2 px-2 w-full sm:w-1/2 text-black"
+                    className="my-2 mb-5 px-2 w-full sm:w-1/2 text-black"
                     type="email"
                     name="verifyemail"
                     placeholder=""
                   />
-                  <div className="flex-row my-3 ml-8 text-sm">
-                    <input type="checkbox" id="giftpass" />
-                    <label htmlFor="giftpass">
-                      {' '}
-                      Purchase this Pass as a gift for someone else?
-                    </label>
-                  </div>
                   <hr />
                   <div className="text-center text-md my-3">
-                    <h3>Cost</h3>
+                    <h3>Biaya</h3>
                     <h2>$20.00 USD</h2>
                   </div>
                   <hr />
@@ -108,19 +101,23 @@ const VIP: React.FC = () => {
                     <input type="checkbox" id="acceptterms" />
                     <label htmlFor="accepterms">
                       {' '}
-                      I have read and agree to the Terms of Sale and Terms of Use.
+                      Saya telah membaca dan menyetujui Terms of Sale dan Terms of Use.
                     </label>
                   </div>
-                  <div className="bg-white text-black text-sm text-center w-2/5 rounded p-0.5 my-3 place-self-center hover:bg-opacity-50">
-                    <button type="submit">Pay with Digital Currency</button>
+                  <div className="bg-white text-black text-sm text-center w-1/2 rounded p-0.5 my-3 place-self-center hover:bg-opacity-50">
+                    <button type="submit">Bayar dengan Mata Uang Digital</button>
                   </div>
-                  <Link to="/" className="text-center text-yellow">
-                    <h3> click here if you have already purchased a bakalo Pass.</h3>
-                  </Link>
+                  <button
+                    type="button"
+                    onClick={toggleModal}
+                    className="text-center text-yellow hover:opacity-60"
+                  >
+                    <h3> klik di sini jika Anda sudah membeli bakalo Pass.</h3>
+                  </button>
                   <p className="text-xs my-3">
-                    Note: You must have JavaScript and browser cookies enabled in order to complete
-                    this purchase. Please provide a valid e-mail address, as you may have trouble
-                    receiving your Pass credentials if you fail to do so.
+                    Catatan: Anda harus mengaktifkan JavaScript dan cookie browser untuk
+                    menyelesaikan pembelian ini. Harap berikan alamat email yang valid, karena Anda
+                    mungkin kesulitan menerima kredensial Pass jika gagal melakukannya.
                   </p>
                 </div>
               </form>
@@ -146,6 +143,7 @@ const VIP: React.FC = () => {
           </div>
         </div>
       </div>
+      <ModalVIP isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
     </div>
   );
 };

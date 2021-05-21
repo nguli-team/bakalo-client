@@ -5,4 +5,5 @@ export { default as BoardsSection } from './BoardsSection';
 export { default as Catalog } from './Catalog';
 export { default as ThreadPosts } from './ThreadPosts';
 export { default as Modal } from './ModalPost';
+export { default as ModalVIP } from './ModalVIP';
 export { default as OP } from './OP';

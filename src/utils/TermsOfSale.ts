@@ -6,24 +6,23 @@ interface TOS {
 const TOS = [
   {
     num: 1,
-    text: 'Your Pass will be valid for 12 months from the date of purchase.'
+    text: 'Pass Anda akan berlaku selama 12 bulan sejak tanggal pembelian.'
   },
   {
     num: 2,
-    text: 'Use of your Pass is bound by the 4chan Pass Terms of Use.'
+    text: 'Penggunaan Pass Anda terikat oleh Ketentuan Penggunaan Bakalo Pass.'
   },
   {
     num: 3,
-    text:
-      'You are encouraged to read and understand the bakalo Pass FAQ before making your purchase.'
+    text: 'Anda dianjurkan untuk membaca dan memahami FAQ Bakalo Pass sebelum melakukan pembelian.'
   },
   {
     num: 4,
-    text: 'This payment will be listed on your billing statement as "bakalo.li."'
+    text: 'Pembayaran ini akan dicantumkan di laporan tagihan Anda sebagai "bakalo.li."'
   },
   {
     num: 5,
-    text: 'All sales are final. No refunds will be issued.'
+    text: 'Semua penjualan bersifat final. Tidak ada pengembalian uang yang akan diberikan.'
   }
 ];
 
