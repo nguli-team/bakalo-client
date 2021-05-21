@@ -1,16 +1,15 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { getBoards, getPopularThreads } from '../redux/BoardAction';
 import { BoardsSection, PopularThread } from '../components';
-import di from '../di';
+import { fetchBoards, fetchThreads } from '../redux/BoardMiddleware';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const fetchPageData = useCallback(async () => {
-    dispatch(getBoards(await di.services.boardService.getBoards()));
-    dispatch(getPopularThreads(await di.services.threadService.getPopularThread()));
+    dispatch(fetchBoards());
+    dispatch(fetchThreads());
   }, [dispatch]);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ const Home: React.FC = () => {
   }, [fetchPageData]);
 
   const boardList = useSelector((state: RootState) => state.BoardReducer.boardList);
-  const popularThreads = useSelector((state: RootState) => state.BoardReducer.popularThreads);
+  const popularThreads = useSelector((state: RootState) => state.BoardReducer.threadList);
 
   return (
     <div>

@@ -15,6 +15,8 @@ export default class MockPostRepo implements IPostRepo {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
   async getPosts(threadId: number): Promise<PostDto[]> {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    setTimeout(() => {}, 4000);
     return replylist;
   }
 
