@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CardItem from './CardItem';
 import { Thread } from '../../domain/model';
 import { AppDispatch, RootState } from '../redux/store';
-import { getBoards } from '../redux/BoardAction';
-import di from '../di';
+import { getBoards } from '../redux/BoardMiddleware';
 
 const PopularThreads: React.FC<{ popularThreads: Thread[] }> = (props) => {
   const { popularThreads } = props;
@@ -15,7 +14,7 @@ const PopularThreads: React.FC<{ popularThreads: Thread[] }> = (props) => {
 
   const fetchBoards = useCallback(async () => {
     if (boards.length === 0) {
-      dispatch(getBoards(await di.services.boardService.getBoards()));
+      dispatch(getBoards());
     }
   }, [boards.length, dispatch]);
 

@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { OP, ThreadPosts, Modal } from '../components';
-import { getBoards, setActiveBoard } from '../redux/BoardAction';
-import { getReplies, getThread } from '../redux/ThreadAction';
-import di from '../di';
+import { setActiveBoard } from '../redux/BoardAction';
+import { getThread } from '../redux/ThreadMiddleware';
+import { getPosts } from '../redux/PostMiddleware';
+import { getBoards } from '../redux/BoardMiddleware';
 
 const Thread: React.FC = () => {
   const { boardShorthand, threadId } = useParams<{ boardShorthand: string; threadId: string }>();
@@ -15,15 +16,16 @@ const Thread: React.FC = () => {
 
   const boards = useSelector((state: RootState) => state.BoardReducer.boardList).length;
 
+  // const boardLoading = useSelector((state: RootState) => state.BoardReducer.loading);
+  // const threadLoading = useSelector((state: RootState) => state.ThreadReducer.loading);
+
   const fetchPageData = useCallback(async () => {
-    if (boards > 0) {
-      dispatch(setActiveBoard({ boardShorthand }));
-    } else {
-      dispatch(getBoards(await di.services.boardService.getBoards()));
-      dispatch(setActiveBoard({ boardShorthand }));
+    if (boards === 0) {
+      dispatch(getBoards());
     }
-    dispatch(getThread(await di.services.threadService.getThread(threadIdNumber)));
-    dispatch(getReplies(await di.services.postService.getPost(threadIdNumber)));
+    dispatch(setActiveBoard({ boardShorthand }));
+    dispatch(getThread(threadIdNumber));
+    dispatch(getPosts(threadIdNumber));
   }, [boardShorthand, boards, dispatch, threadIdNumber]);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const Thread: React.FC = () => {
       </button>
       <div className="container sm:p-2 grid gap-5">
         {thread?.op && <OP op={thread.op} title={thread.title} />}
-        {replies && <ThreadPosts posts={replies} />}
+        {replies ? <ThreadPosts posts={replies} /> : <div>There Are No Replies</div>}
       </div>
       <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
     </div>

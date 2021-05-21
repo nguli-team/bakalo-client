@@ -2,25 +2,27 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { getBoards, getThreads, setActiveBoard } from '../redux/BoardAction';
+import { setActiveBoard } from '../redux/BoardAction';
 import { Catalog, Modal } from '../components';
-import di from '../di';
+import { getBoards } from '../redux/BoardMiddleware';
+import { getThreads } from '../redux/ThreadMiddleware';
 
 const Boards: React.FC = () => {
   const { boardShorthand } = useParams<{ boardShorthand: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
   const boards = useSelector((state: RootState) => state.BoardReducer.boardList);
+  const activeBoard = useSelector((state: RootState) => state.BoardReducer.activeBoard);
 
   const fetchPageData = useCallback(async () => {
     if (boards.length > 0) {
       dispatch(setActiveBoard({ boardShorthand }));
     } else {
-      dispatch(getBoards(await di.services.boardService.getBoards()));
+      dispatch(getBoards());
       dispatch(setActiveBoard({ boardShorthand }));
     }
-    dispatch(getThreads(await di.services.threadService.getThreads(1)));
-  }, [boardShorthand, boards.length, dispatch]);
+    dispatch(getThreads(activeBoard?.id));
+  }, [activeBoard?.id, boardShorthand, boards.length, dispatch]);
 
   useEffect(() => {
     // TODO: give feedback to UI
