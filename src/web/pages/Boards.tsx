@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { setActiveBoard } from '../redux/BoardAction';
-import { Catalog, Modal } from '../components';
+import { Catalog, Modal, Navbar } from '../components';
 import { getBoards } from '../redux/BoardMiddleware';
 import { getThreads } from '../redux/ThreadMiddleware';
 
@@ -40,19 +40,22 @@ const Boards: React.FC = () => {
   };
 
   return (
-    <div className="my-7 grid justify-items-center align-start">
-      <h1 className="p-4 text-center text-3xl text-yellow font-bold">
-        {`/${boardInfo?.shorthand}/ - ${boardInfo?.title}`}
-      </h1>
-      <button
-        type="button"
-        onClick={toggleModal}
-        className="m-5 py-3 px-7 bg-red text-white rounded-md text-2xl"
-      >
-        Start a Thread
-      </button>
-      {threads && <Catalog threads={threads} />}
-      <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+    <div>
+      <Navbar />
+      <div className="my-7 grid justify-items-center align-start">
+        <h1 className="p-4 text-center text-3xl text-yellow font-bold">
+          {`/${boardInfo?.shorthand}/ - ${boardInfo?.title}`}
+        </h1>
+        <button
+          type="button"
+          onClick={toggleModal}
+          className="m-5 py-3 px-7 bg-red text-white rounded-md text-2xl"
+        >
+          Start a Thread
+        </button>
+        {threads && <Catalog threads={threads} />}
+        <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+      </div>
     </div>
   );
 };

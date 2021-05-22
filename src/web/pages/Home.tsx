@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { BoardsSection, PopularThread } from '../components';
+import { BoardsSection, Navbar, PopularThread } from '../components';
 import { getBoards } from '../redux/BoardMiddleware';
 import { getThreads } from '../redux/ThreadMiddleware';
 
@@ -22,6 +22,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      <Navbar />
       <BoardsSection boardList={boardList} />
       {popularThreads && <PopularThread popularThreads={popularThreads} />}
     </div>

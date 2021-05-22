@@ -8,23 +8,29 @@ export default class WebStorage implements Storage {
     this.length = 0;
   }
 
-  getItem(key: string): string | null {
-    return this.storage.getItem(key);
+  getItem<T>(key: string): T | null {
+    const item = this.storage.getItem(key) as string | null;
+
+    if (item) {
+      return JSON.parse(item) as T;
+    }
+
+    return null;
   }
 
-  setItem(key: string, value: string): void {
+  setItem<T>(key: string, value: T): void {
     this.length += 1;
-    return this.storage.setItem(key, value);
+    this.storage.setItem(key, JSON.stringify(value));
   }
 
   removeItem(key: string): void {
     this.length -= 1;
-    return this.storage.removeItem(key);
+    this.storage.removeItem(key);
   }
 
   clear(): void {
     this.length = 0;
-    return this.storage.clear();
+    this.storage.clear();
   }
 
   key(index: number): string | null {

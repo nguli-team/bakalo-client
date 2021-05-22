@@ -7,11 +7,8 @@ import popularthreadlist from '../../utils/popularthreadlist';
 
 export default class MockThreadRepo implements IThreadRepo {
   // TODO: beresin kalo udah jadi enpoint nya
-  readonly client: Http;
 
-  constructor(client: Http) {
-    this.client = client;
-  }
+  constructor(private readonly client: Http) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,class-methods-use-this
   async getThreads(boardId: number): Promise<ThreadDto[]> {

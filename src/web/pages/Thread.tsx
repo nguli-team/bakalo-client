@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { OP, ThreadPosts, Modal } from '../components';
+import { OP, ThreadPosts, Modal, Navbar } from '../components';
 import { setActiveBoard } from '../redux/BoardAction';
 import { getThread } from '../redux/ThreadMiddleware';
 import { getPosts } from '../redux/PostMiddleware';
@@ -43,22 +43,25 @@ const Thread: React.FC = () => {
   };
 
   return (
-    <div className="my-7 grid justify-items-center align-start">
-      <Link to={`/${boardShorthand}/`} className="p-4 text-center text-3xl text-yellow font-bold">
-        {`/${boardInfo?.shorthand}/ - ${boardInfo?.title}`}
-      </Link>
-      <button
-        type="button"
-        onClick={toggleModal}
-        className="m-5 py-3 px-7 bg-red text-white rounded-md text-2xl"
-      >
-        Post a Reply
-      </button>
-      <div className="container sm:p-2 grid gap-5">
-        {thread?.op && <OP op={thread.op} title={thread.title} />}
-        {replies ? <ThreadPosts posts={replies} /> : <div>There Are No Replies</div>}
+    <div>
+      <Navbar />
+      <div className="my-7 grid justify-items-center align-start">
+        <Link to={`/${boardShorthand}/`} className="p-4 text-center text-3xl text-yellow font-bold">
+          {`/${boardInfo?.shorthand}/ - ${boardInfo?.title}`}
+        </Link>
+        <button
+          type="button"
+          onClick={toggleModal}
+          className="m-5 py-3 px-7 bg-red text-white rounded-md text-2xl"
+        >
+          Post a Reply
+        </button>
+        <div className="container sm:p-2 grid gap-5">
+          {thread?.op && <OP op={thread.op} title={thread.title} />}
+          {replies ? <ThreadPosts posts={replies} /> : <div>There Are No Replies</div>}
+        </div>
+        <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
       </div>
-      <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
     </div>
   );
 };

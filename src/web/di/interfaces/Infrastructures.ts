@@ -1,7 +1,7 @@
-import { Http } from '../../../adapters/infrastuctures';
+import { Http, WebStorage } from '../../../adapters/infrastuctures';
 
 export default interface Infrastructures {
   http: Http;
-  localStorage: Storage;
-  sessionStorage: Storage;
+  localStorage: WebStorage;
+  sessionStorage: WebStorage;
 }

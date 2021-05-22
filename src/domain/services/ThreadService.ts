@@ -25,12 +25,12 @@ export default class ThreadService implements IThreadService {
     return this.threadRepo.createThread(thread);
   }
 
-  updateThread(opId: number, thread: ThreadDto): Promise<Thread> {
-    return this.threadRepo.updateThread(opId, thread);
-  }
-
   removeThread(opId: number): void {
     this.threadRepo.removeThread(opId);
+  }
+
+  updateThread(opId: number, thread: ThreadDto): Promise<Thread> {
+    return this.threadRepo.updateThread(opId, thread);
   }
 
   private async mapThreadDtoToThread(threadDto: ThreadDto): Promise<Thread> {

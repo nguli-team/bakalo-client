@@ -4,12 +4,7 @@ import { ThreadDto, CreateThreadDto, UpdateThreadDto } from '../dto';
 import { Thread as ThreadModel } from '../../domain/model';
 
 export default class ThreadRepo implements IThreadRepo {
-  // TODO: beresin kalo udah jadi enpoint nya
-  readonly client: Http;
-
-  constructor(client: Http) {
-    this.client = client;
-  }
+  constructor(private readonly client: Http) {}
 
   getThreads(boardId: number): Promise<ThreadDto[]> {
     return this.client.get<ThreadDto[]>(`https://bakalo.li/api/threads?boardId=${boardId}`);
