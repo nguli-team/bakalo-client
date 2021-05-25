@@ -10,23 +10,10 @@ export default class BoardService implements IBoardService {
   }
 
   async getBoard(id: number): Promise<Board> {
-    const boardDto = await this.boardRepo.getBoard(id);
-    return {
-      id: boardDto.id,
-      title: boardDto.title,
-      shorthand: boardDto.shorthand,
-      desc: boardDto.desc
-    };
+    return this.boardRepo.getBoard(id);
   }
 
   async getBoards(): Promise<Board[]> {
-    const boardsDto: Board[] = Object.values(await this.boardRepo.getBoards());
-
-    return boardsDto.map((boardDto) => ({
-      id: boardDto.id,
-      title: boardDto.title,
-      shorthand: boardDto.shorthand,
-      desc: boardDto.desc
-    }));
+    return this.boardRepo.getBoards();
   }
 }

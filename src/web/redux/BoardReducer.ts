@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Board, Thread } from '../../domain/model';
-import { setActiveBoard } from './BoardAction';
+import { clearThreadList, removeActiveBoard, setActiveBoard } from './BoardAction';
 import { getBoards } from './BoardMiddleware';
 import { getThreads } from './ThreadMiddleware';
 
@@ -52,6 +52,14 @@ const BoardReducer = createReducer(initialState, (builder) =>
     .addCase(setActiveBoard, (state, action) => ({
       ...state,
       activeBoard: state.boardList.find((b) => b.shorthand === action.payload.boardShorthand)
+    }))
+    .addCase(removeActiveBoard, (state) => ({
+      ...state,
+      activeBoard: undefined
+    }))
+    .addCase(clearThreadList, (state) => ({
+      ...state,
+      threadList: []
     }))
 );
 

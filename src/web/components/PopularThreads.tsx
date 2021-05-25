@@ -27,13 +27,13 @@ const PopularThreads: React.FC<{ popularThreads: Thread[] }> = (props) => {
   const threadMarkup = popularThreads.map((thread: Thread) => {
     const board = findBoard(thread.boardId);
     return (
-      <div key={thread.opId} className="m-3">
+      <div key={thread.id} className="m-3">
         <CardItem
           src={thread.op?.mediaUrl}
           thread={thread.title}
           text={thread.op?.text}
-          label={board?.title || ''}
-          path={`/${board?.shorthand}/${thread.opId}`}
+          label={board?.name || ''}
+          path={`/${board?.shorthand}/${thread.id}`}
         />
       </div>
     );

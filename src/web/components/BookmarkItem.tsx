@@ -12,27 +12,30 @@ const BookmarkItem: React.FC<{ thread: Thread; boardShorthand?: string }> = (pro
   const toggleBookmark = () => {
     if (bookmark) {
       setBookmark(false);
-      di.services.bookmarkService.removeBookmark(thread.opId);
+      di.services.bookmarkService.removeBookmark(thread.id);
     } else {
       setBookmark(true);
-      di.services.bookmarkService.createBookmark(thread.opId);
+      di.services.bookmarkService.createBookmark(thread.id);
     }
   };
 
   return (
-    <Link to={`/${boardShorthand}/${thread.opId}`}>
-      <div className="flex flex-row p-3 justify-between	" key={`${thread.opId}`}>
+    <div className="flex flex-row p-3 justify-between" key={`${thread.id}`}>
+      <Link
+        className="flex flex-row justify-start items-center flex-grow"
+        to={`/${boardShorthand}/${thread.id}`}
+      >
         <img className="rounded-full w-5 h-5" src={thread.op.mediaUrl} alt="OP" />
-        <p className="text-sm mx-1">{thread.title}</p>
-        <button type="button" onClick={() => toggleBookmark()}>
-          {bookmark ? (
-            <BookmarkIcon className="h-4 w-5" />
-          ) : (
-            <BookmarkIconOutline className="h-4 w-5" />
-          )}
-        </button>
-      </div>
-    </Link>
+        <p className="lg:text-sm text-xs mx-1">{thread.title}</p>
+      </Link>
+      <button type="button" onClick={() => toggleBookmark()}>
+        {bookmark ? (
+          <BookmarkIcon className="h-4 w-5" />
+        ) : (
+          <BookmarkIconOutline className="h-4 w-5" />
+        )}
+      </button>
+    </div>
   );
 };
 

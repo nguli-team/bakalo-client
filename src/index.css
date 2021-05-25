@@ -15,6 +15,18 @@
 }
 
 .navbar {
-  @apply sticky top-0 z-10 py-1 px-5 w-full bg-purple-dark text-white shadow-md;
+  @apply sticky top-0 z-10 py-1 px-2 w-full bg-purple-dark text-white shadow-md;
   @apply flex flex-row justify-between;
+}
+
+body::-webkit-scrollbar {
+  @apply bg-white w-2.5
+}
+
+body::-webkit-scrollbar-track {
+  @apply bg-purple-dark p-1
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply bg-white rounded-lg
 }

@@ -1,6 +1,7 @@
-import BoardDto from '../../dto/BoardDto';
+import { Board } from '../../../domain/model';
 
 export default interface BoardRepo {
-  getBoards(): Promise<BoardDto[]>;
-  getBoard(id: number): Promise<BoardDto>;
+  getBoards(): Promise<Board[]>;
+
+  getBoard(id: number): Promise<Board>;
 }

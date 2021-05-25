@@ -1,27 +1,24 @@
-import { ThreadRepo, PostRepo } from '../../adapters/repositories/interfaces';
+import { ThreadRepo } from '../../adapters/repositories/interfaces';
 import IThreadService from './interfaces/ThreadService';
 import { Thread } from '../model';
-import ThreadDto from '../../adapters/dto/ThreadDto';
+import { CreateThreadDto, UpdateThreadDto } from '../../adapters/dto';
 
 export default class ThreadService implements IThreadService {
-  constructor(private readonly threadRepo: ThreadRepo, private readonly postRepo: PostRepo) {}
+  constructor(private readonly threadRepo: ThreadRepo) {}
 
-  async getThread(opId: number): Promise<Thread> {
-    const threadDto = await this.threadRepo.getThread(opId);
-    return this.mapThreadDtoToThread(threadDto);
+  getThread(opId: number): Promise<Thread> {
+    return this.threadRepo.getThread(opId);
   }
 
-  async getThreads(boardId: number): Promise<Thread[]> {
-    const threadsDto = await this.threadRepo.getThreads(boardId);
-    return Promise.all(threadsDto.map(this.mapThreadDtoToThread.bind(this)));
+  getThreads(boardId: number): Promise<Thread[]> {
+    return this.threadRepo.getThreads(boardId);
   }
 
-  async getPopularThread(): Promise<Thread[]> {
-    const threadsDto = await this.threadRepo.getPopularThread();
-    return Promise.all(threadsDto.map(async (threadDto) => this.mapThreadDtoToThread(threadDto)));
+  getPopularThread(): Promise<Thread[]> {
+    return this.threadRepo.getPopularThread();
   }
 
-  createThread(thread: ThreadDto): Promise<Thread> {
+  createThread(thread: CreateThreadDto): Promise<Thread> {
     return this.threadRepo.createThread(thread);
   }
 
@@ -29,21 +26,7 @@ export default class ThreadService implements IThreadService {
     this.threadRepo.removeThread(opId);
   }
 
-  updateThread(opId: number, thread: ThreadDto): Promise<Thread> {
+  updateThread(opId: number, thread: UpdateThreadDto): Promise<Thread> {
     return this.threadRepo.updateThread(opId, thread);
-  }
-
-  private async mapThreadDtoToThread(threadDto: ThreadDto): Promise<Thread> {
-    const op = await this.postRepo.getPost(threadDto.opId);
-
-    return {
-      opId: threadDto.opId,
-      boardId: threadDto.boardId,
-      title: threadDto.title,
-      op: { ...op, createdAt: new Date(op.createdAt) },
-      posterCount: threadDto.posterCount,
-      replyCount: threadDto.replyCount,
-      mediaCount: threadDto.mediaCount
-    };
   }
 }

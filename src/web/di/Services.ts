@@ -4,7 +4,7 @@ import { BoardService, BookmarkService, PostService, ThreadService } from '../..
 
 export default (repositories: Repositories): Services => ({
   boardService: new BoardService(repositories.boardRepo),
-  threadService: new ThreadService(repositories.threadRepo, repositories.postRepo),
+  threadService: new ThreadService(repositories.threadRepo),
   postService: new PostService(repositories.postRepo),
-  bookmarkService: new BookmarkService(repositories.bookmarkRepo, repositories.postRepo)
+  bookmarkService: new BookmarkService(repositories.bookmarkRepo)
 });

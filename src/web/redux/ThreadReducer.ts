@@ -1,18 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Post, Thread } from '../../domain/model';
 import { getThread } from './ThreadMiddleware';
-import { getPosts } from './PostMiddleware';
+import { createPost, getPosts } from './PostMiddleware';
+import { removeActiveThread } from './ThreadAction';
 
 interface ThreadState {
   activeThread?: Thread;
-  replies?: Post[];
+  posts: Post[];
+  newPost?: Post;
   loading: boolean;
   error?: string;
 }
 
 const initialState: ThreadState = {
   activeThread: undefined,
-  replies: [],
+  posts: [],
   loading: false,
   error: undefined
 };
@@ -40,12 +42,31 @@ const ThreadReducer = createReducer(initialState, (builder) =>
     .addCase(getPosts.fulfilled, (state, action) => ({
       ...state,
       loading: false,
-      replies: action.payload
+      posts: action.payload
     }))
     .addCase(getPosts.rejected, (state, action) => ({
       ...state,
       loading: false,
       error: action.error.message
+    }))
+    .addCase(createPost.pending, (state) => ({
+      ...state,
+      loading: true
+    }))
+    .addCase(createPost.fulfilled, (state) => {
+      return {
+        ...state,
+        loading: false
+      };
+    })
+    .addCase(createPost.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.error.message
+    }))
+    .addCase(removeActiveThread, (state) => ({
+      ...state,
+      activeThread: undefined
     }))
 );
 

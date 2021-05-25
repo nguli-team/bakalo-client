@@ -1,32 +1,100 @@
 import React, { useState } from 'react';
-import Recaptcha from 'react-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Modal from './ModalOverlay';
+import { AppDispatch, RootState } from '../redux/store';
+import { Board } from '../../domain/model';
+import { CreatePostDto, CreateThreadDto } from '../../adapters/dto';
+import di from '../di';
+import { createPost } from '../redux/PostMiddleware';
 
 interface ModalProps {
   isModalVisible: boolean;
   onBackdropClick: () => void;
 }
 
+interface FormData {
+  posterName: string;
+  title: string;
+  text: string;
+  media?: File;
+  isVerified: boolean;
+  threadId: number;
+}
+
 const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible }) => {
-  const initialState = {
-    isVerified: false
+  const { threadId } = useParams<{ threadId: string }>();
+  const threadIdNum = Number(threadId);
+  const activeBoard = useSelector((state: RootState) => state.BoardReducer.activeBoard) as Board;
+  const activeThread = useSelector((state: RootState) => state.ThreadReducer.activeThread);
+  const threadList = useSelector((state: RootState) => state.BoardReducer.threadList);
+
+  const initialState: FormData = {
+    posterName: '',
+    title: '',
+    text: '',
+    media: undefined,
+    isVerified: false,
+    threadId: threadIdNum || 0
   };
 
-  const [data, setData] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
 
-  const onloadCallback = () => {
-    // eslint-disable-next-line no-console
-    console.log('captcha successfully loaded');
+  const handleFileInput = (event: { target: any }) => {
+    const file = event.target.files[0];
+    setFormData({ ...formData, media: file });
   };
 
-  const verifyCallback = (response: string) => {
-    // eslint-disable-next-line no-console
-    console.log(response);
+  const handleInputChange = (event: { target: any }) => {
+    const { target } = event;
+
+    switch (target.name) {
+      case 'posterName': {
+        setFormData({ ...formData, posterName: target.value });
+        break;
+      }
+      case 'title': {
+        setFormData({ ...formData, title: target.value });
+        break;
+      }
+      case 'text': {
+        setFormData({ ...formData, text: target.value });
+        break;
+      }
+      case 'threadId': {
+        setFormData({ ...formData, threadId: target.value });
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    if (!formData.isVerified) {
+      toast.error('Please verify that you are a human');
+      return;
+    }
+    if (threadId) {
+      const createPostDto: CreatePostDto = { ...formData };
+      dispatch(createPost(createPostDto));
+    } else {
+      const createThreadDto: CreateThreadDto = { ...formData, boardId: activeBoard.id };
+      di.services.threadService.createThread(createThreadDto);
+    }
+    onBackdropClick();
+  };
+
+  const verifyCallback = (response: string | null) => {
+    // console.log(response);
     if (response) {
-      setData({
-        ...data,
-        isVerified: true
-      });
+      setFormData({ ...formData, isVerified: true });
     }
   };
 
@@ -38,32 +106,69 @@ const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisibl
     <div className="flex relative flex-col">
       <Modal onBackdropClick={onBackdropClick}>
         <div className="p-6 sm:w-96 rounded-md shadow-xl bg-purple-light">
-          <form method="post" encType="multipart/form-data">
+          <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
             <div className="flex flex-col">
-              <input className="mb-3 px-2" type="text" name="name" placeholder="Name (Anonymous)" />
-              <textarea className="h-32 mb-3 px-2" name="comment" placeholder="Comment" />
+              <div className="w-full">
+                {!threadId && (
+                  <input
+                    className="mb-3 p-2"
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                  />
+                )}
+                <input
+                  className="mb-3 p-2"
+                  type="text"
+                  name="posterName"
+                  placeholder="Name (Anonymous)"
+                  value={formData.posterName}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <textarea
+                className="h-32 mb-3 p-2"
+                name="text"
+                placeholder="Comment"
+                value={formData.text}
+                onChange={handleInputChange}
+              />
 
               <input
                 className="my-1 text-white"
                 type="file"
-                name="upFile"
+                name="media"
                 accept=".jpg, .jpeg, .png"
+                onChange={handleFileInput}
               />
             </div>
 
             <div className="my-2">
-              <Recaptcha
+              <ReCAPTCHA
                 sitekey="6LfuJMUaAAAAANbKelhqJaR_pYDNbpgVVqXPOXBs"
-                render="explicit"
-                onloadCallback={onloadCallback}
-                verifyCallback={verifyCallback}
+                onChange={verifyCallback}
               />
             </div>
 
             <div className="flex flex-rows h-8">
-              <select className="w-2/3 px-2" name="post">
-                <option value="newThread">New Thread</option>
-                <option value="newPost">New Post</option>
+              <select
+                className="w-2/3 px-2 text-sm"
+                name="threadId"
+                value={formData.threadId}
+                onChange={handleInputChange}
+              >
+                {threadId && (
+                  <option value={activeThread?.id}>
+                    {`${activeThread?.id} - ${activeThread?.title}`}
+                  </option>
+                )}
+                {!threadId && <option value={0}>New Thread</option>}
+                {!threadId &&
+                  threadList.map((thread) => (
+                    <option value={thread.id}>{`${thread.id} - ${thread.title}`}</option>
+                  ))}
               </select>
               <input
                 type="submit"

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Post } from '../../domain/model';
-import { PostDto } from '../../adapters/dto';
+import { CreatePostDto } from '../../adapters/dto';
 import di from '../di';
 
 export const getPosts = createAsyncThunk<Post[], number>(
@@ -14,7 +14,7 @@ export const getPosts = createAsyncThunk<Post[], number>(
   }
 );
 
-export const createPost = createAsyncThunk<Post, PostDto>(
+export const createPost = createAsyncThunk<Post, CreatePostDto>(
   '[Thread] Create Thread',
   (post, thunkApi) => {
     try {

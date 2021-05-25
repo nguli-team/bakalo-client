@@ -1,13 +1,28 @@
-export default class ThreadDto {
-  readonly opId: number;
+/* eslint-disable camelcase */
+import PostDto from './PostDto';
 
-  readonly boardId: number;
+export default class ThreadDto {
+  readonly id: number;
+
+  readonly board_id: number;
 
   readonly title: string;
 
-  readonly posterCount: number;
+  readonly sticky: boolean;
 
-  readonly replyCount: number;
+  readonly locked: boolean;
 
-  readonly mediaCount: number;
+  readonly op_id: number;
+
+  op: PostDto;
+
+  readonly poster_count: number;
+
+  readonly reply_count: number;
+
+  readonly media_count: number;
+
+  created_at: number;
+
+  updated_at: number;
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Thread } from '../../domain/model';
-import { ThreadDto } from '../../adapters/dto';
+import { CreatePostDto, CreateThreadDto } from '../../adapters/dto';
 import di from '../di';
 
 export const getThreads = createAsyncThunk<Thread[], number | undefined>(
@@ -28,11 +28,11 @@ export const getThread = createAsyncThunk<Thread, number>(
   }
 );
 
-export const createThread = createAsyncThunk<Thread, ThreadDto>(
+export const createThread = createAsyncThunk<Thread, { data: CreateThreadDto; op: CreatePostDto }>(
   '[Thread] Create Thread',
   (thread, thunkApi) => {
     try {
-      return di.services.threadService.createThread(thread);
+      return di.services.threadService.createThread(thread.data);
     } catch (err) {
       return thunkApi.rejectWithValue(err);
     }

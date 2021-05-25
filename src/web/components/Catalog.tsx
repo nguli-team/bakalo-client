@@ -7,14 +7,19 @@ const Catalog: React.FC<{ threads: Thread[] }> = (props) => {
 
   const threadsMarkup = threads.map((thread) => (
     <ThreadCard
-      key={thread.opId}
-      opId={thread.opId}
+      key={thread.id}
+      id={thread.id}
       title={thread.title}
       boardId={thread.boardId}
+      locked={thread.locked}
+      sticky={thread.sticky}
+      opId={thread.opId}
+      op={thread.op}
       posterCount={thread.posterCount}
       replyCount={thread.replyCount}
       mediaCount={thread.mediaCount}
-      op={thread.op}
+      createdAt={thread.createdAt}
+      updatedAt={thread.updatedAt}
     />
   ));
   return (

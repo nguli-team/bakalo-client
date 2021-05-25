@@ -1,11 +1,10 @@
-import PostDto from '../../dto/PostDto';
-import UpdatePostDto from '../../dto/UpdatePostDto';
-import { Post as PostModel } from '../../../domain/model';
+import { Post } from '../../../domain/model';
+import { CreatePostDto, UpdatePostDto } from '../../dto';
 
 export default interface PostRepo {
-  getPosts(threadId: number): Promise<PostDto[]>;
-  getPost(id: number): Promise<PostDto>;
-  createPost(post: PostDto): Promise<PostModel>;
-  updatePost(id: number, post: UpdatePostDto): Promise<PostModel>;
+  getPosts(threadId: number): Promise<Post[]>;
+  getPost(id: number): Promise<Post>;
+  createPost(post: CreatePostDto): Promise<Post>;
+  updatePost(id: number, post: UpdatePostDto): Promise<Post>;
   deletePost(id: number): void;
 }

@@ -3,6 +3,7 @@ import IPostRepo from './interfaces/PostRepo';
 import PostDto from '../dto/PostDto';
 import UpdatePostDto from '../dto/UpdatePostDto';
 import { Post } from '../../domain/model';
+import { CreatePostDto } from '../dto';
 
 export default class PostRepo implements IPostRepo {
   readonly client: Http;
@@ -11,25 +12,48 @@ export default class PostRepo implements IPostRepo {
     this.client = client;
   }
 
-  getPosts(threadId: number): Promise<PostDto[]> {
-    return this.client.get<PostDto[]>(`https://bakalo.li/api/posts?threadId=${threadId}`);
+  async getPosts(threadId: number): Promise<Post[]> {
+    const postsDto = await this.client.get<PostDto[]>(
+      `https://bakalo.li/api/posts?threadId=${threadId}`
+    );
+    return postsDto.map((postDto) => this.mapPostDtoToPost(postDto));
   }
 
-  getPost(id: number): Promise<PostDto> {
-    return this.client.get<PostDto>(`https://bakalo.li/api/posts/${id}`);
+  async getPost(id: number): Promise<Post> {
+    const postDto = await this.client.get<PostDto>(`https://bakalo.li/api/posts/${id}`);
+    return this.mapPostDtoToPost(postDto);
   }
 
-  createPost(post: PostDto): Promise<Post> {
+  async createPost(post: CreatePostDto): Promise<Post> {
     const poststring = JSON.stringify(post);
-    return this.client.post<Post>(`https://bakalo.li/api/posts`, { poststring });
+    const newPostDto = await this.client.post<PostDto>(`https://bakalo.li/api/posts`, {
+      poststring
+    });
+    return this.mapPostDtoToPost(newPostDto);
   }
 
-  updatePost(id: number, post: UpdatePostDto): Promise<Post> {
+  async updatePost(id: number, post: UpdatePostDto): Promise<Post> {
     const poststring = JSON.stringify(post);
-    return this.client.put<Post>(`https://bakalo.li/api/post/${id}`, { poststring });
+    const updatedPostDto = await this.client.put<PostDto>(`https://bakalo.li/api/post/${id}`, {
+      poststring
+    });
+    return this.mapPostDtoToPost(updatedPostDto);
   }
 
   deletePost(id: number): void {
     this.client.delete(`https://bakalo.li/api/posts/${id}`);
   }
+
+  private mapPostDtoToPost = (postDto: PostDto): Post => ({
+    id: postDto.id,
+    refNo: postDto.ref,
+    threadId: postDto.thread_id,
+    // repliedTo?:
+    posterId: postDto.poster_id,
+    mediaUrl: postDto.media_url,
+    name: postDto.name,
+    text: postDto.text,
+    createdAt: postDto.created_at,
+    updatedAt: postDto.updated_at
+  });
 }

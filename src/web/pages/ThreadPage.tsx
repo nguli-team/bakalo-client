@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { OP, ThreadPosts, Modal, Navbar } from '../components';
@@ -8,8 +7,9 @@ import { setActiveBoard } from '../redux/BoardAction';
 import { getThread } from '../redux/ThreadMiddleware';
 import { getPosts } from '../redux/PostMiddleware';
 import { getBoards } from '../redux/BoardMiddleware';
+import BoardHeader from '../components/BoardHeader';
 
-const Thread: React.FC = () => {
+const ThreadPage: React.FC = () => {
   const { boardShorthand, threadId } = useParams<{ boardShorthand: string; threadId: string }>();
   const threadIdNumber = Number(threadId);
   const dispatch = useDispatch();
@@ -32,12 +32,10 @@ const Thread: React.FC = () => {
     fetchPageData();
   }, [fetchPageData]);
 
-  const boardInfo = useSelector((state: RootState) => state.BoardReducer.activeBoard);
   const thread = useSelector((state: RootState) => state.ThreadReducer.activeThread);
-  const replies = useSelector((state: RootState) => state.ThreadReducer.replies);
+  const replies = useSelector((state: RootState) => state.ThreadReducer.posts);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const toggleModal = () => {
     setIsModalVisible((wasModalVisible) => !wasModalVisible);
   };
@@ -46,23 +44,19 @@ const Thread: React.FC = () => {
     <div>
       <Navbar />
       <div className="my-7 grid justify-items-center align-start">
-        <Link to={`/${boardShorthand}/`} className="p-4 text-center text-3xl text-yellow font-bold">
-          {`/${boardInfo?.shorthand}/ - ${boardInfo?.title}`}
-        </Link>
-        <button
-          type="button"
-          onClick={toggleModal}
-          className="m-5 py-3 px-7 bg-red text-white rounded-md text-2xl"
-        >
-          Post a Reply
-        </button>
+        <BoardHeader toggleModal={toggleModal} />
         <div className="container sm:p-2 grid gap-5">
           {thread?.op && <OP op={thread.op} title={thread.title} />}
-          {replies ? <ThreadPosts posts={replies} /> : <div>There Are No Replies</div>}
+          {replies.length > 0 && <ThreadPosts posts={replies} />}
+          {replies.length === 0 && (
+            <div className="m-auto">
+              <p className="text-2xl text-white text-center">There are no replies at this moment</p>
+            </div>
+          )}
         </div>
         <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
       </div>
     </div>
   );
 };
-export default Thread;
+export default ThreadPage;

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 import { useSelector } from 'react-redux';
-import { MenuIcon, ChevronDownIcon, BookmarkIcon } from '@heroicons/react/solid';
+import { MenuIcon, ChevronDownIcon, BookmarkIcon, ArrowLeftIcon } from '@heroicons/react/solid';
 import { BookmarkIcon as BookmarkIconOutline } from '@heroicons/react/outline';
 import Sidebar from './Sidebar';
 import { RootState } from '../redux/store';
 import di from '../di';
 
 const Navbar: React.FC = () => {
-  const activeBoards = useSelector((state: RootState) => state.BoardReducer.activeBoard);
   const { threadId } = useParams<{ threadId: string }>();
+  const activeBoard = useSelector((state: RootState) => state.BoardReducer.activeBoard);
   const activeThread = useSelector((state: RootState) => state.ThreadReducer.activeThread);
 
   const isDesktop = useMediaQuery({
@@ -30,25 +30,33 @@ const Navbar: React.FC = () => {
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
 
-  const bookmarkStatus = di.services.bookmarkService.checkBookmarks(activeThread?.opId as number);
+  const bookmarkStatus = di.services.bookmarkService.checkBookmarks(activeThread?.id as number);
   const [bookmark, setBookmark] = useState(bookmarkStatus);
 
   const toggleBookmark = () => {
     if (bookmark) {
       setBookmark(false);
-      di.services.bookmarkService.removeBookmark(activeThread?.opId as number);
+      di.services.bookmarkService.removeBookmark(activeThread?.id as number);
     } else {
       setBookmark(true);
-      di.services.bookmarkService.createBookmark(activeThread?.opId as number);
+      di.services.bookmarkService.createBookmark(activeThread?.id as number);
     }
   };
 
   return (
     <nav className="navbar w-full">
-      <div className="flex flex-row justify-start w-full">
-        <button type="button" onClick={showSidebar} className="col-span-1">
-          <MenuIcon className="h-5 sm:w-10 mt-1" />{' '}
-        </button>
+      <div className="flex flex-row justify-start content-between w-full">
+        <div className="flex-shrink-0 lg:m-0 m-1">
+          {threadId ? (
+            <Link to={`/${activeBoard?.shorthand}/`}>
+              <ArrowLeftIcon className="h-5 w-5 m-1" />
+            </Link>
+          ) : (
+            <button type="button" onClick={showSidebar}>
+              <MenuIcon className="h-5 w-5 m-1" />
+            </button>
+          )}
+        </div>
         {sidebar && <Sidebar toggleSidebar={() => showSidebar()} />}
         <div className="flex-grow">
           {isDesktop && (
@@ -75,7 +83,7 @@ const Navbar: React.FC = () => {
                 onClick={showDropDown}
               >
                 <span>
-                  /{activeBoards?.shorthand}/ - {activeBoards?.title}
+                  {activeBoard ? `/${activeBoard?.shorthand}/ - ${activeBoard?.name}` : 'Home'}
                 </span>
                 <ChevronDownIcon className="h-5 sm:w-10 mt-1" />
               </button>
@@ -90,7 +98,7 @@ const Navbar: React.FC = () => {
                           activeClassName="text-cyan"
                           to={`/${board.shorthand}/`}
                         >
-                          /{board.shorthand}/ - {board.title}
+                          /{board.shorthand}/ - {board.name}
                         </NavLink>
                       </li>
                     );
@@ -103,9 +111,9 @@ const Navbar: React.FC = () => {
         {threadId && (
           <button type="button" onClick={() => toggleBookmark()}>
             {bookmark ? (
-              <BookmarkIcon className="h-4 w-5" />
+              <BookmarkIcon className="h-5 w-5" />
             ) : (
-              <BookmarkIconOutline className="h-4 w-5" />
+              <BookmarkIconOutline className="h-5 w-5" />
             )}
           </button>
         )}

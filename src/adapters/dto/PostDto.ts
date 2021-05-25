@@ -1,15 +1,20 @@
+/* eslint-disable camelcase */
 export default class PostDto {
   readonly id: number;
 
-  readonly repliedTo: number;
+  readonly ref: number;
 
-  readonly posterId: string;
+  readonly thread_id: number;
 
-  readonly mediaUrl?: string;
+  readonly poster_id: string;
 
-  readonly posterName?: string;
+  readonly media_url?: string;
 
-  readonly createdAt: number;
+  readonly name?: string;
 
   readonly text: string;
+
+  readonly created_at: number;
+
+  readonly updated_at: number;
 }

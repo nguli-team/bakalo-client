@@ -9,12 +9,14 @@ const ThreadPosts: React.FC<{ posts: Post[] }> = (props) => {
     <PostCard
       key={post.id}
       id={post.id}
-      repliedTo={post.repliedTo}
-      mediaUrl={post.mediaUrl}
-      posterName={post.posterName}
-      createdAt={post.createdAt}
+      refNo={post.refNo}
+      threadId={post.threadId}
       posterId={post.posterId}
+      name={post.name}
       text={post.text}
+      mediaUrl={post.mediaUrl}
+      createdAt={post.createdAt}
+      updatedAt={post.updatedAt}
     />
   ));
 
