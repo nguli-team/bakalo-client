@@ -14,6 +14,7 @@ const BoardPage: React.FC = () => {
   const { boardShorthand } = useParams<{ boardShorthand: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
+  const boardLoading = useSelector((state: RootState) => state.BoardReducer.loading);
   const boards = useSelector((state: RootState) => state.BoardReducer.boardList);
   const activeBoard = boards.find((board) => board.shorthand === boardShorthand) as Board;
 
@@ -44,6 +45,7 @@ const BoardPage: React.FC = () => {
   return (
     <div>
       <Navbar />
+      {boardLoading && <div>Loading</div>}
       <div className="my-4 grid justify-items-center align-bottom">
         <BoardHeader toggleModal={toggleModal} />
         {threads.length > 0 && <Catalog threads={threads} />}

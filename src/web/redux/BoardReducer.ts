@@ -42,6 +42,7 @@ const BoardReducer = createReducer(initialState, (builder) =>
     }))
     .addCase(getThreads.fulfilled, (state, action) => ({
       ...state,
+      loading: false,
       threadList: action.payload
     }))
     .addCase(getThreads.rejected, (state, action) => ({

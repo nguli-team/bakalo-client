@@ -14,9 +14,14 @@ export default class MockBookmarkRepo implements IBookmarkRepo {
   async getBookmarks(): Promise<Thread[]> {
     const bookmarkIds = this.getBookmarkIds();
     const bookmarks: Thread[] = [];
-    for (let i = 0; i < bookmarkIds.length; i += 1) {
-      bookmarks.push(this.mapThreadDtoToThread(threadlist[i]));
-    }
+    bookmarkIds.map(async (id: number) => {
+      const thread = threadlist.find((t) => t.id === id);
+      if (!thread) {
+        bookmarkIds.slice(bookmarkIds.indexOf(id), 1);
+      } else {
+        bookmarks.push(this.mapThreadDtoToThread(thread));
+      }
+    });
     return bookmarks;
   }
 

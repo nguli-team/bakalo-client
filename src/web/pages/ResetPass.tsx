@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Recaptcha from 'react-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Link } from 'react-router-dom';
 import { Navbar } from '../components';
 
@@ -10,21 +10,12 @@ const ResetPass: React.FC = () => {
 
   const [data, setData] = useState(initialState);
 
-  const onloadCallback = () => {
-    // eslint-disable-next-line no-console
-    console.log('captcha successfully loaded');
-  };
-
-  const verifyCallback = (response: string) => {
-    // eslint-disable-next-line no-console
-    console.log(response);
+  const verifyCallback = (response: string | null) => {
     if (response) {
-      setData({
-        ...data,
-        isVerified: true
-      });
+      setData({ ...data, isVerified: true });
     }
   };
+
   return (
     <div>
       <Navbar />
@@ -43,11 +34,9 @@ const ResetPass: React.FC = () => {
           </div>
           <div className="flex flex-col sm:flex-row mt-5 gap-5">
             <p className="text-white text-xl">Verifikasi</p>
-            <Recaptcha
+            <ReCAPTCHA
               sitekey="6LfuJMUaAAAAANbKelhqJaR_pYDNbpgVVqXPOXBs"
-              render="explicit"
-              onloadCallback={onloadCallback}
-              verifyCallback={verifyCallback}
+              onChange={verifyCallback}
             />
           </div>
           <button

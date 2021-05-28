@@ -36,10 +36,6 @@ const Sidebar: React.FC<{ toggleSidebar: () => void }> = (props) => {
           <p className="shadow-xl bg-purple-darkLight p-2">Bookmarked Threads</p>
           {bookMarkedItem}
         </div>
-        <div>
-          <p className="shadow-xl bg-purple-darkLight p-2">History</p>
-          {bookMarkedItem}
-        </div>
       </div>
 
       <button
