@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { clearThreadList, setActiveBoard } from '../redux/BoardAction';
-import { Catalog, Modal, Navbar } from '../components';
+import { Catalog, CreateThreadModal, Navbar } from '../components';
 import { getBoards } from '../redux/BoardMiddleware';
 import { getThreads } from '../redux/ThreadMiddleware';
 import { Board } from '../../domain/model';
@@ -54,7 +54,7 @@ const BoardPage: React.FC = () => {
             <p className="text-2xl text-white text-center">There are no thread at this moment</p>
           </div>
         )}
-        <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+        <CreateThreadModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
       </div>
     </div>
   );

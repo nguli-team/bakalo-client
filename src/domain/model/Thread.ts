@@ -13,4 +13,5 @@ export default interface Thread {
   mediaCount: number;
   createdAt: number;
   updatedAt: number;
+  posts?: Post[];
 }

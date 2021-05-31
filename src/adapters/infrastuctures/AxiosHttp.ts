@@ -6,6 +6,7 @@ export default class AxiosHttp implements Required<Http> {
 
   constructor() {
     this.client = axios;
+    this.client.defaults.baseURL = 'http://localhost:8080/v1/';
   }
 
   async get<T>(url: string, headers?: HttpHeader, extraConfig?: HttpExtraConfig): Promise<T> {
@@ -19,7 +20,7 @@ export default class AxiosHttp implements Required<Http> {
     headers?: HttpHeader,
     extraConfig?: HttpExtraConfig
   ): Promise<T> {
-    const res = await this.client.post(url, { headers, data: body, ...extraConfig });
+    const res = await this.client.post(url, body, { headers, ...extraConfig });
     return res.data as T;
   }
 

@@ -8,7 +8,7 @@ export default class PostDto {
 
   readonly poster_id: string;
 
-  readonly media_url?: string;
+  readonly media_file_name?: string;
 
   readonly name?: string;
 

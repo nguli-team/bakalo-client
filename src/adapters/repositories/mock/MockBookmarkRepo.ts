@@ -57,7 +57,7 @@ export default class MockBookmarkRepo implements IBookmarkRepo {
       threadId: threadDto.op.thread_id,
       // repliedTo?:
       posterId: threadDto.op.poster_id,
-      mediaUrl: threadDto.op.media_url,
+      mediaUrl: threadDto.op.media_file_name,
       name: threadDto.op.name,
       text: threadDto.op.text,
       createdAt: threadDto.op.created_at,

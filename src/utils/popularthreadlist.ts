@@ -5,7 +5,7 @@ export const op: PostDto = {
   ref: 1315423,
   poster_id: '1231512',
   thread_id: 0,
-  media_url:
+  media_file_name:
     'https://static01.nyt.com/images/2016/09/28/us/17xp-pepethefrog_web1/28xp-pepefrog-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
   text: "Why use C when there's C++ that can do more?",
   created_at: 1621406917000,

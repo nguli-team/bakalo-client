@@ -3,9 +3,13 @@ import { Post, Thread } from '../../domain/model';
 import { getThread } from './ThreadMiddleware';
 import { createPost, getPosts } from './PostMiddleware';
 import { removeActiveThread } from './ThreadAction';
+import di from '../di';
 
+export interface ThreadWithBookmark extends Thread {
+  isBookmarked: boolean;
+}
 interface ThreadState {
-  activeThread?: Thread;
+  activeThread?: ThreadWithBookmark;
   posts: Post[];
   newPost?: Post;
   loading: boolean;
@@ -28,7 +32,10 @@ const ThreadReducer = createReducer(initialState, (builder) =>
     .addCase(getThread.fulfilled, (state, action) => ({
       ...state,
       loading: false,
-      activeThread: action.payload
+      activeThread: {
+        ...action.payload,
+        isBookmarked: di.services.bookmarkService.checkBookmarks(action.payload.opId)
+      }
     }))
     .addCase(getThread.rejected, (state, action) => ({
       ...state,

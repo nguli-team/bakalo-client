@@ -5,7 +5,7 @@ const mockPost: PostDto = {
   ref: 8127123,
   poster_id: '53241',
   thread_id: 8127938,
-  media_url: 'https://melmagazine.com/wp-content/uploads/2021/01/66f-1.jpg',
+  media_file_name: 'https://melmagazine.com/wp-content/uploads/2021/01/66f-1.jpg',
   created_at: 1621863661000,
   updated_at: 1621863661000,
   text:

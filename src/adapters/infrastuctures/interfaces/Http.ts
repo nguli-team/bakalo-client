@@ -70,7 +70,7 @@ export interface HttpHeader {
 }
 
 export interface HttpRequestBody {
-  [name: string]: string;
+  [name: string]: any;
 }
 
 export interface HttpExtraConfig {

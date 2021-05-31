@@ -29,7 +29,7 @@ export default class MockThreadRepo implements IThreadRepo {
   async createThread(thread: CreateThreadDto): Promise<Thread> {
     const newThreadDto: ThreadDto = {
       id: 13141212,
-      board_id: thread.boardId,
+      board_id: thread.board_id,
       title: thread.title,
       sticky: false,
       locked: false,
@@ -40,9 +40,9 @@ export default class MockThreadRepo implements IThreadRepo {
         thread_id: 13141212,
         // repliedTo?:
         poster_id: '1231412123',
-        media_url:
+        media_file_name:
           'https://www.b.wikiage.org/wp-content/uploads/2020/11/What-Does-KEKW-Mean-On-Twitch-KEKW-Meaning-Explained-580x381.png',
-        name: thread.posterName,
+        name: thread.name,
         text: thread.text,
         created_at: 1232531231234,
         updated_at: 1232531231234
@@ -83,7 +83,7 @@ export default class MockThreadRepo implements IThreadRepo {
       threadId: threadDto.op.thread_id,
       // repliedTo?:
       posterId: threadDto.op.poster_id,
-      mediaUrl: threadDto.op.media_url,
+      mediaUrl: threadDto.op.media_file_name,
       name: threadDto.op.name,
       text: threadDto.op.text,
       createdAt: threadDto.op.created_at,

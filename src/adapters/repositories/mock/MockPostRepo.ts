@@ -35,8 +35,8 @@ export default class MockPostRepo implements IPostRepo {
       poster_id: '12312412',
       name: post.name,
       text: post.text,
-      thread_id: post.threadId,
-      media_url: post.media?.name,
+      thread_id: post.thread_id,
+      media_file_name: post.media?.name,
       created_at: 1621863324123,
       updated_at: 1621863324123
     };
@@ -59,7 +59,7 @@ export default class MockPostRepo implements IPostRepo {
     threadId: postDto.thread_id,
     // repliedTo?:
     posterId: postDto.poster_id,
-    mediaUrl: postDto.media_url,
+    mediaUrl: postDto.media_file_name,
     name: postDto.name,
     text: postDto.text,
     createdAt: postDto.created_at,

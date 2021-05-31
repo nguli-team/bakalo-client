@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { OP, ThreadPosts, Modal, Navbar } from '../components';
+import { OP, ThreadPosts, CreatePostModal, Navbar } from '../components';
 import { setActiveBoard } from '../redux/BoardAction';
 import { getThread } from '../redux/ThreadMiddleware';
 import { getPosts } from '../redux/PostMiddleware';
@@ -54,7 +54,7 @@ const ThreadPage: React.FC = () => {
             </div>
           )}
         </div>
-        <Modal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+        <CreatePostModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
       </div>
     </div>
   );

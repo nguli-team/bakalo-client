@@ -35,7 +35,7 @@ const ResetPass: React.FC = () => {
           <div className="flex flex-col sm:flex-row mt-5 gap-5">
             <p className="text-white text-xl">Verifikasi</p>
             <ReCAPTCHA
-              sitekey="6LfuJMUaAAAAANbKelhqJaR_pYDNbpgVVqXPOXBs"
+              sitekey="6LeogPkaAAAAAM0jcHhbPKEbcrr4pWQeXji6ytQx"
               onChange={verifyCallback}
             />
           </div>

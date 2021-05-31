@@ -12,12 +12,12 @@ export default class BoardRepo implements IBoardRepo {
   }
 
   async getBoards(): Promise<Board[]> {
-    const boardsDto = await this.client.get<BoardDto[]>('https://bakalo.li/api/boards');
+    const boardsDto = await this.client.get<BoardDto[]>('/boards');
     return boardsDto.map((boardDto) => this.mapBoardDtoToBoard(boardDto));
   }
 
   async getBoard(id: number): Promise<Board> {
-    const boardDto = await this.client.get<BoardDto>(`https://bakalo.li/api/boards/${id}`);
+    const boardDto = await this.client.get<BoardDto>(`/boards/${id}`);
     return this.mapBoardDtoToBoard(boardDto);
   }
 

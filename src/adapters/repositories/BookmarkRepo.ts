@@ -12,22 +12,21 @@ export default class BookmarkRepo implements IBookmarkRepo {
 
   async getBookmarks(): Promise<Thread[]> {
     const bookmarkIds = this.getBookmarkIds();
-    const bookmarks: Thread[] = [];
-    bookmarkIds.map(async (id: number) => {
-      const thread: ThreadDto = await this.client.get(`bakalo.li/api/thread/${id}`);
-      if (!thread) {
-        bookmarkIds.slice(bookmarkIds.indexOf(id), 1);
-      } else {
-        bookmarks.push(this.mapThreadDtoToThread(thread));
-      }
-    });
-    return bookmarks;
+    return Promise.all(
+      bookmarkIds.map(async (id: number) => {
+        const threadDto: ThreadDto = await this.client.get(`thread/${id}`);
+        if (!threadDto) {
+          bookmarkIds.slice(bookmarkIds.indexOf(id), 1);
+        }
+        return this.mapThreadDtoToThread(threadDto);
+      })
+    );
   }
 
   createBookmark(opId: number): void {
-    const bookmarkIds = this.getBookmarkIds();
-    bookmarkIds?.push(opId);
+    const bookmarkIds = this.getBookmarkIds() || [];
 
+    bookmarkIds.push(opId);
     return this.localStorage.setItem('bookmark', bookmarkIds);
   }
 
@@ -51,7 +50,7 @@ export default class BookmarkRepo implements IBookmarkRepo {
       threadId: threadDto.op.thread_id,
       // repliedTo?:
       posterId: threadDto.op.poster_id,
-      mediaUrl: threadDto.op.media_url,
+      mediaUrl: `http://localhost:8081/${threadDto.op.media_file_name}`,
       name: threadDto.op.name,
       text: threadDto.op.text,
       createdAt: threadDto.op.created_at,

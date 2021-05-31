@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
@@ -30,8 +30,11 @@ const Navbar: React.FC = () => {
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
 
-  const bookmarkStatus = di.services.bookmarkService.checkBookmarks(activeThread?.id as number);
-  const [bookmark, setBookmark] = useState(bookmarkStatus);
+  const [bookmark, setBookmark] = useState(activeThread?.isBookmarked);
+
+  useEffect(() => {
+    setBookmark(activeThread?.isBookmarked);
+  }, [activeThread?.isBookmarked]);
 
   const toggleBookmark = () => {
     if (bookmark) {

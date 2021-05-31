@@ -25,4 +25,6 @@ export default class ThreadDto {
   created_at: number;
 
   updated_at: number;
+
+  posts?: PostDto[];
 }
