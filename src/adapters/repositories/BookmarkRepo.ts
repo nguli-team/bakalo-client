@@ -48,18 +48,20 @@ export default class BookmarkRepo implements IBookmarkRepo {
       id: threadDto.op.id,
       refNo: threadDto.op.ref,
       threadId: threadDto.op.thread_id,
-      // repliedTo?:
+      replies: [],
       posterId: threadDto.op.poster_id,
       mediaUrl: `http://localhost:8081/${threadDto.op.media_file_name}`,
       name: threadDto.op.name,
       text: threadDto.op.text,
       createdAt: threadDto.op.created_at,
-      updatedAt: threadDto.op.updated_at
+      updatedAt: threadDto.op.updated_at,
+      isYou: threadDto.op.is_you
     },
     posterCount: threadDto.poster_count,
     replyCount: threadDto.poster_count,
     mediaCount: threadDto.poster_count,
     createdAt: threadDto.created_at,
-    updatedAt: threadDto.updated_at
+    updatedAt: threadDto.updated_at,
+    isYou: threadDto.is_you
   });
 }

@@ -20,7 +20,7 @@ const CardItem: React.FC<Properties> = (props) => {
         </figure>
         <div className="p-5">
           <h4 className="text-center text-lg text-cyan ">{thread}</h4>
-          <h5 className="p-3 text-white text-sm">{text}</h5>
+          <h5 className="text-center p-3 text-white text-sm">{text}</h5>
         </div>
       </Link>
     </div>

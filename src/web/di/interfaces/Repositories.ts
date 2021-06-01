@@ -2,7 +2,8 @@ import {
   BoardRepo,
   BookmarkRepo,
   PostRepo,
-  ThreadRepo
+  ThreadRepo,
+  VipRepo
 } from '../../../adapters/repositories/interfaces';
 
 export default interface Repositories {
@@ -10,4 +11,5 @@ export default interface Repositories {
   threadRepo: ThreadRepo;
   postRepo: PostRepo;
   bookmarkRepo: BookmarkRepo;
+  vipRepo: VipRepo;
 }

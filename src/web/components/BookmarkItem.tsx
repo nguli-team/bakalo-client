@@ -25,7 +25,9 @@ const BookmarkItem: React.FC<{ thread: Thread; boardShorthand?: string }> = (pro
         className="flex flex-row justify-start items-center flex-grow"
         to={`/${boardShorthand}/${thread.id}`}
       >
-        <img className="rounded-full w-5 h-5" src={thread.op.mediaUrl} alt="OP" />
+        {thread.op.mediaUrl && (
+          <img className="rounded-full w-5 h-5" src={thread.op.mediaUrl} alt="OP" />
+        )}
         <p className="lg:text-sm text-xs mx-1">{thread.title}</p>
       </Link>
       <button type="button" onClick={() => toggleBookmark()}>

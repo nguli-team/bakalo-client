@@ -27,4 +27,6 @@ export default class ThreadDto {
   updated_at: number;
 
   posts?: PostDto[];
+
+  readonly is_you: boolean;
 }

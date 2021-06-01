@@ -2,7 +2,8 @@ import {
   BoardService,
   BookmarkService,
   PostService,
-  ThreadService
+  ThreadService,
+  VipService
 } from '../../../domain/services/interfaces';
 
 export default interface Services {
@@ -10,4 +11,5 @@ export default interface Services {
   threadService: ThreadService;
   postService: PostService;
   bookmarkService: BookmarkService;
+  vipService: VipService;
 }

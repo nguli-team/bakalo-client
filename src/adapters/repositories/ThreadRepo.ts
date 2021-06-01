@@ -17,7 +17,7 @@ export default class ThreadRepo implements IThreadRepo {
   }
 
   async getPopularThread(): Promise<Thread[]> {
-    const threadsDto = await this.client.get<ThreadDto[]>('popular-thread');
+    const threadsDto = await this.client.get<ThreadDto[]>('threads/popular');
     return threadsDto.map((threadDto) => this.mapThreadDtoToThread(threadDto));
   }
 
@@ -57,18 +57,20 @@ export default class ThreadRepo implements IThreadRepo {
       id: threadDto.op.id,
       refNo: threadDto.op.ref,
       threadId: threadDto.op.thread_id,
-      // repliedTo?:
+      replies: [],
       posterId: threadDto.op.poster_id,
       mediaUrl: `http://localhost:8081/${threadDto.op.media_file_name}`,
       name: threadDto.op.name,
       text: threadDto.op.text,
-      createdAt: threadDto.op.created_at,
-      updatedAt: threadDto.op.updated_at
+      createdAt: threadDto.op.created_at * 1000,
+      updatedAt: threadDto.op.updated_at * 1000,
+      isYou: threadDto.op.is_you
     },
     posterCount: threadDto.poster_count,
-    replyCount: threadDto.poster_count,
-    mediaCount: threadDto.poster_count,
-    createdAt: threadDto.created_at,
-    updatedAt: threadDto.updated_at
+    replyCount: threadDto.reply_count,
+    mediaCount: threadDto.media_count,
+    createdAt: threadDto.created_at * 1000,
+    updatedAt: threadDto.updated_at * 1000,
+    isYou: threadDto.is_you
   });
 }

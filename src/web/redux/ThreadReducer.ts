@@ -1,9 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Post, Thread } from '../../domain/model';
 import { getThread } from './ThreadMiddleware';
-import { createPost, getPosts } from './PostMiddleware';
+import { createPost, deletePost, getPosts } from './PostMiddleware';
 import { removeActiveThread } from './ThreadAction';
-import di from '../di';
 
 export interface ThreadWithBookmark extends Thread {
   isBookmarked: boolean;
@@ -33,8 +32,8 @@ const ThreadReducer = createReducer(initialState, (builder) =>
       ...state,
       loading: false,
       activeThread: {
-        ...action.payload,
-        isBookmarked: di.services.bookmarkService.checkBookmarks(action.payload.opId)
+        ...action.payload.thread,
+        isBookmarked: action.payload.isBookmarked
       }
     }))
     .addCase(getThread.rejected, (state, action) => ({
@@ -67,6 +66,21 @@ const ThreadReducer = createReducer(initialState, (builder) =>
       };
     })
     .addCase(createPost.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.error.message
+    }))
+    .addCase(deletePost.pending, (state) => ({
+      ...state,
+      loading: true
+    }))
+    .addCase(deletePost.fulfilled, (state) => {
+      return {
+        ...state,
+        loading: false
+      };
+    })
+    .addCase(deletePost.rejected, (state, action) => ({
       ...state,
       loading: false,
       error: action.error.message

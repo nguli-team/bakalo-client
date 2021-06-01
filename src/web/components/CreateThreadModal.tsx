@@ -7,7 +7,7 @@ import Modal from './ModalOverlay';
 import { AppDispatch, RootState } from '../redux/store';
 import { Board } from '../../domain/model';
 import { CreateThreadDto } from '../../adapters/dto';
-import { createThread } from '../redux/ThreadMiddleware';
+import { createThread, getThreads } from '../redux/ThreadMiddleware';
 
 interface ModalProps {
   isModalVisible: boolean;
@@ -24,6 +24,8 @@ interface FormData {
 
 const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible }) => {
   const activeBoard = useSelector((state: RootState) => state.BoardReducer.activeBoard) as Board;
+  const isVip = useSelector((state: RootState) => state.VipReducer.isVip);
+  const loading = useSelector((state: RootState) => state.ThreadReducer.loading);
 
   const initialState: FormData = {
     name: '',
@@ -62,14 +64,15 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-    if (!formData.recaptchaResponse) {
+    if (!formData.recaptchaResponse && !isVip) {
       toast.error('Please verify that you are a human');
       return;
     }
     const createThreadDto: CreateThreadDto = { ...formData, board_id: activeBoard.id };
-    dispatch(createThread(createThreadDto));
+    await dispatch(createThread(createThreadDto));
+    await dispatch(getThreads(activeBoard.id));
     onBackdropClick();
   };
 
@@ -91,7 +94,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
             <div className="flex flex-col">
               <div className="w-full">
                 <input
-                  className="mb-3 p-2"
+                  className="mb-3 p-1 w-full"
                   type="text"
                   name="title"
                   placeholder="Title"
@@ -99,7 +102,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
                   onChange={handleInputChange}
                 />
                 <input
-                  className="mb-3 p-2"
+                  className="mb-3 p-1 w-full"
                   type="text"
                   name="posterName"
                   placeholder="Name (Anonymous)"
@@ -108,7 +111,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
                 />
               </div>
               <textarea
-                className="h-32 mb-3 p-2"
+                className="h-32 mb-3 p-1"
                 name="text"
                 placeholder="Comment"
                 value={formData.text}
@@ -119,23 +122,24 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
                 className="my-1 text-white"
                 type="file"
                 name="media"
-                accept=".jpg, .jpeg, .png"
+                accept=".jpg, .jpeg, .png, .gif"
                 onChange={handleFileInput}
               />
             </div>
-
-            <div className="my-2">
-              <ReCAPTCHA
-                sitekey="6LeogPkaAAAAAM0jcHhbPKEbcrr4pWQeXji6ytQx"
-                onChange={verifyCallback}
-              />
-            </div>
-
+            {!isVip && (
+              <div className="my-2">
+                <ReCAPTCHA
+                  sitekey="6LeogPkaAAAAAM0jcHhbPKEbcrr4pWQeXji6ytQx"
+                  onChange={verifyCallback}
+                />
+              </div>
+            )}
             <div className="my-2">
               <input
+                disabled={loading}
                 type="submit"
-                className="ml-4 w-1/3 bg-red text-white rounded-md hover:bg-opacity-60"
-                value="Post"
+                className="w-1/3 p-2 bg-red text-white rounded-md hover:bg-opacity-60"
+                value={loading ? 'Posting...' : 'Post'}
               />
             </div>
           </form>

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { OP, ThreadPosts, CreatePostModal, Navbar } from '../components';
+import { ThreadPosts, CreatePostModal, Navbar } from '../components';
 import { setActiveBoard } from '../redux/BoardAction';
 import { getThread } from '../redux/ThreadMiddleware';
 import { getPosts } from '../redux/PostMiddleware';
@@ -16,8 +16,7 @@ const ThreadPage: React.FC = () => {
 
   const boards = useSelector((state: RootState) => state.BoardReducer.boardList).length;
 
-  // const boardLoading = useSelector((state: RootState) => state.BoardReducer.loading);
-  // const threadLoading = useSelector((state: RootState) => state.ThreadReducer.loading);
+  const loading = useSelector((state: RootState) => state.ThreadReducer.loading);
 
   const fetchPageData = useCallback(async () => {
     if (boards === 0) {
@@ -43,19 +42,23 @@ const ThreadPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div className="my-7 grid justify-items-center align-start">
-        <BoardHeader toggleModal={toggleModal} />
-        <div className="container sm:p-2 grid gap-5">
-          {thread?.op && <OP op={thread.op} title={thread.title} />}
-          {replies.length > 0 && <ThreadPosts posts={replies} />}
+      {loading && (
+        <div className="w-full min-h-full text-center text-white text-3xl flex justify-center align-middle">
+          Loading...
+        </div>
+      )}
+      {!loading && (
+        <div className="my-7 lg:mx-96 grid justify-items-center align-start">
+          <BoardHeader toggleModal={toggleModal} />
+          {replies.length > 0 && <ThreadPosts title={thread?.title as string} posts={replies} />}
           {replies.length === 0 && (
             <div className="m-auto">
               <p className="text-2xl text-white text-center">There are no replies at this moment</p>
             </div>
           )}
+          <CreatePostModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
         </div>
-        <CreatePostModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
-      </div>
+      )}
     </div>
   );
 };

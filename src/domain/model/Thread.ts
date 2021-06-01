@@ -14,4 +14,5 @@ export default interface Thread {
   createdAt: number;
   updatedAt: number;
   posts?: Post[];
+  isYou: boolean;
 }

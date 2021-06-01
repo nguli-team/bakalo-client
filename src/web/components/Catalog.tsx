@@ -20,6 +20,7 @@ const Catalog: React.FC<{ threads: Thread[] }> = (props) => {
       mediaCount={thread.mediaCount}
       createdAt={thread.createdAt}
       updatedAt={thread.updatedAt}
+      isYou={thread.isYou}
     />
   ));
   return (

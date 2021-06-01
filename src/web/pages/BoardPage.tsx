@@ -45,17 +45,23 @@ const BoardPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      {boardLoading && <div>Loading</div>}
-      <div className="my-4 grid justify-items-center align-bottom">
-        <BoardHeader toggleModal={toggleModal} />
-        {threads.length > 0 && <Catalog threads={threads} />}
-        {threads.length === 0 && (
-          <div className="m-auto ">
-            <p className="text-2xl text-white text-center">There are no thread at this moment</p>
-          </div>
-        )}
-        <CreateThreadModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
-      </div>
+      {boardLoading && (
+        <div className="w-full min-h-full text-center text-white text-3xl flex justify-center align-middle">
+          Loading...
+        </div>
+      )}
+      {!boardLoading && (
+        <div className="my-4 grid justify-items-center align-bottom">
+          <BoardHeader toggleModal={toggleModal} />
+          {threads.length > 0 && <Catalog threads={threads} />}
+          {threads.length === 0 && (
+            <div className="m-auto ">
+              <p className="text-2xl text-white text-center">There are no thread at this moment</p>
+            </div>
+          )}
+          <CreateThreadModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+        </div>
+      )}
     </div>
   );
 };

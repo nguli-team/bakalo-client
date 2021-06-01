@@ -17,11 +17,14 @@ export const getThreads = createAsyncThunk<Thread[], number | undefined>(
   }
 );
 
-export const getThread = createAsyncThunk<Thread, number>(
+export const getThread = createAsyncThunk<{ thread: Thread; isBookmarked: boolean }, number>(
   '[Thread] Get Thread',
-  (threadId, thunkApi) => {
+  async (threadId, thunkApi) => {
     try {
-      return di.services.threadService.getThread(threadId);
+      return {
+        thread: await di.services.threadService.getThread(threadId),
+        isBookmarked: di.services.bookmarkService.checkBookmarks(threadId)
+      };
     } catch (err) {
       return thunkApi.rejectWithValue(err);
     }

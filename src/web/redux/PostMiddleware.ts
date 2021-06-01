@@ -15,10 +15,21 @@ export const getPosts = createAsyncThunk<Post[], number>(
 );
 
 export const createPost = createAsyncThunk<Post, CreatePostDto>(
-  '[Thread] Create Thread',
+  '[Post] Create Post',
   (post, thunkApi) => {
     try {
       return di.services.postService.createPost(post);
+    } catch (err) {
+      return thunkApi.rejectWithValue(err);
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk<void, number>(
+  '[Post] Delete Post',
+  (postId, thunkApi) => {
+    try {
+      return di.services.postService.deletePost(postId);
     } catch (err) {
       return thunkApi.rejectWithValue(err);
     }

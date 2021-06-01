@@ -25,10 +25,10 @@ const Navbar: React.FC = () => {
   const boardList = useSelector((state: RootState) => state.BoardReducer.boardList);
 
   const [dropDown, setDropDown] = useState(false);
-  const showDropDown = () => setDropDown(!dropDown);
+  const toggleDropdown = () => setDropDown(!dropDown);
 
   const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+  const toggleSidebar = () => setSidebar(!sidebar);
 
   const [bookmark, setBookmark] = useState(activeThread?.isBookmarked);
 
@@ -55,12 +55,12 @@ const Navbar: React.FC = () => {
               <ArrowLeftIcon className="h-5 w-5 m-1" />
             </Link>
           ) : (
-            <button type="button" onClick={showSidebar}>
+            <button type="button" onClick={toggleSidebar}>
               <MenuIcon className="h-5 w-5 m-1" />
             </button>
           )}
         </div>
-        {sidebar && <Sidebar toggleSidebar={() => showSidebar()} />}
+        {sidebar && <Sidebar toggleSidebar={() => toggleSidebar()} />}
         <div className="flex-grow">
           {isDesktop && (
             <div>
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
               <button
                 type="button"
                 className="text-white font-semibold px-2 rounded inline-flex items-center w-full justify-between"
-                onClick={showDropDown}
+                onClick={toggleDropdown}
               >
                 <span>
                   {activeBoard ? `/${activeBoard?.shorthand}/ - ${activeBoard?.name}` : 'Home'}
@@ -100,6 +100,7 @@ const Navbar: React.FC = () => {
                           className="bg-purple-darkLight text-white"
                           activeClassName="text-cyan"
                           to={`/${board.shorthand}/`}
+                          onClick={toggleDropdown}
                         >
                           /{board.shorthand}/ - {board.name}
                         </NavLink>

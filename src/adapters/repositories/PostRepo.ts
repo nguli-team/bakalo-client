@@ -4,11 +4,7 @@ import { Post } from '../../domain/model';
 import { CreatePostDto, PostDto, UpdatePostDto } from '../dto';
 
 export default class PostRepo implements IPostRepo {
-  readonly client: Http;
-
-  constructor(client: Http) {
-    this.client = client;
-  }
+  constructor(private readonly client: Http) {}
 
   async getPosts(threadId: number): Promise<Post[]> {
     const postsDto = await this.client.get<PostDto[]>(`posts?thread_id=${threadId}`);
@@ -22,12 +18,13 @@ export default class PostRepo implements IPostRepo {
 
   async createPost(post: CreatePostDto): Promise<Post> {
     const formData = new FormData();
-    formData.append('board_id', post.thread_id.toString());
+    formData.append('thread_id', post.thread_id.toString());
     if (post.name) {
       formData.append('name', post.name.toString());
     }
     formData.append('text', post.text.toString());
     formData.append('media', post.media as File);
+    formData.append('recaptcha_response', post.recaptcha_response as string);
     const newPostDto = await this.client.post<PostDto>('post', formData, {
       'Content-Type': 'multipart/form-data'
     });
@@ -43,19 +40,24 @@ export default class PostRepo implements IPostRepo {
   }
 
   deletePost(id: number): void {
-    this.client.delete(`posts/${id}`);
+    this.client.delete(`post/${id}`);
   }
 
-  private mapPostDtoToPost = (postDto: PostDto): Post => ({
-    id: postDto.id,
-    refNo: postDto.ref,
-    threadId: postDto.thread_id,
-    // repliedTo?:
-    posterId: postDto.poster_id,
-    mediaUrl: `http://localhost:8081/${postDto.media_file_name}`,
-    name: postDto.name,
-    text: postDto.text,
-    createdAt: postDto.created_at,
-    updatedAt: postDto.updated_at
-  });
+  private mapPostDtoToPost = (postDto: PostDto): Post => {
+    return {
+      id: postDto.id,
+      refNo: postDto.ref,
+      threadId: postDto.thread_id,
+      replies: [],
+      posterId: postDto.poster_id,
+      mediaUrl: postDto.media_file_name
+        ? `http://localhost:8081/${postDto.media_file_name}`
+        : undefined,
+      name: postDto.name,
+      text: postDto.text,
+      createdAt: postDto.created_at * 1000,
+      updatedAt: postDto.updated_at * 1000,
+      isYou: postDto.is_you
+    };
+  };
 }

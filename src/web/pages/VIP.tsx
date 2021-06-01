@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
 import FaqList from '../../utils/FaqList';
 import TOS from '../../utils/TermsOfSale';
 import TOU from '../../utils/TermsOfUse';
 import { ModalVIP, Navbar } from '../components';
+import { AppDispatch } from '../redux/store';
+import { registerVip } from '../redux/VipMiddleware';
 
 const VIP: React.FC = () => {
   const faqInfo = FaqList.map((faq) => {
@@ -33,9 +38,44 @@ const VIP: React.FC = () => {
   });
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const toggleModal = () => {
     setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
+  const [vipRegistrationForm, setVipRegistrationForm] = useState({
+    email: '',
+    confirmEmail: ''
+  });
+  const updateRegistrationForm = (event: { target: any }) => {
+    const { target } = event;
+    switch (target.name) {
+      case 'email':
+        setVipRegistrationForm({ ...vipRegistrationForm, email: target.value });
+        break;
+      case 'confirmEmail':
+        setVipRegistrationForm({ ...vipRegistrationForm, confirmEmail: target.value });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  // eslint-disable-next-line consistent-return
+  const submitVipRegistration = async (event: any) => {
+    event.preventDefault();
+    if (vipRegistrationForm.email !== '') {
+      if (vipRegistrationForm.email === vipRegistrationForm.confirmEmail) {
+        const result = await dispatch(registerVip({ email: vipRegistrationForm.email })).then(
+          unwrapResult
+        );
+        if (result) {
+          toast('Registration Successful! Please check your email.');
+        }
+      }
+    }
+    return 0;
   };
 
   return (
@@ -76,22 +116,26 @@ const VIP: React.FC = () => {
                 <div className="shadow-xl">
                   <p className="p-2 ml-2">Beli Tiket VIP</p>
                 </div>
-                <form action="">
+                <form method="post" onSubmit={submitVipRegistration}>
                   <div className="flex flex-col mx-10 my-5">
                     <h3>E-mail Anda</h3>
                     <input
                       className="my-2 px-2  w-full sm:w-1/2  text-black"
                       type="email"
                       name="email"
+                      required
                       placeholder=""
+                      onChange={updateRegistrationForm}
                     />
 
                     <h3>Verifikasi E-mail</h3>
                     <input
                       className="my-2 mb-5 px-2 w-full sm:w-1/2 text-black"
                       type="email"
-                      name="verifyemail"
+                      name="confirmEmail"
+                      required
                       placeholder=""
+                      onChange={updateRegistrationForm}
                     />
                     <hr />
                     <div className="text-center text-md my-3">
@@ -100,7 +144,7 @@ const VIP: React.FC = () => {
                     </div>
                     <hr />
                     <div className="flex-row my-2 mx-2 text-center text-sm">
-                      <input type="checkbox" id="acceptterms" />
+                      <input type="checkbox" id="acceptterms" required />
                       <label htmlFor="accepterms">
                         {' '}
                         Saya telah membaca dan menyetujui Terms of Sale dan Terms of Use.

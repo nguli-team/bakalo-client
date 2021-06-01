@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from './ModalOverlay';
-import { AppDispatch } from '../redux/store';
+import { AppDispatch, RootState } from '../redux/store';
 import { CreatePostDto } from '../../adapters/dto';
-import { createPost } from '../redux/PostMiddleware';
+import { createPost, getPosts } from '../redux/PostMiddleware';
 
 interface ModalProps {
   isModalVisible: boolean;
   onBackdropClick: () => void;
+  refNo?: number;
 }
 
 interface FormData {
@@ -23,14 +24,16 @@ interface FormData {
   threadId: number;
 }
 
-const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible }) => {
+const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible, refNo }) => {
   const { threadId } = useParams<{ threadId: string }>();
   const threadIdNum = Number(threadId);
+  const isVip = useSelector((state: RootState) => state.VipReducer.isVip);
+  const loading = useSelector((state: RootState) => state.ThreadReducer.loading);
 
   const initialState: FormData = {
     posterName: '',
     title: '',
-    text: '',
+    text: refNo ? `>>${refNo}` : '',
     media: undefined,
     recaptchaResponse: undefined,
     threadId: threadIdNum
@@ -66,9 +69,9 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
-    if (!formData.recaptchaResponse) {
+    if (!formData.recaptchaResponse && !isVip) {
       toast.error('Please verify that you are a human');
       return;
     }
@@ -79,7 +82,8 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
       text: formData.text,
       recaptcha_response: formData.recaptchaResponse
     };
-    dispatch(createPost(createPostDto));
+    await dispatch(createPost(createPostDto));
+    await dispatch(getPosts(threadIdNum));
     onBackdropClick();
   };
 
@@ -102,7 +106,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
             <div className="flex flex-col">
               <div className="w-full">
                 <input
-                  className="mb-3 p-2"
+                  className="mb-3 p-1 w-full"
                   type="text"
                   name="posterName"
                   placeholder="Name (Anonymous)"
@@ -111,7 +115,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
                 />
               </div>
               <textarea
-                className="h-32 mb-3 p-2"
+                className="h-32 mb-3 p-1"
                 name="text"
                 placeholder="Comment"
                 value={formData.text}
@@ -122,23 +126,26 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
                 className="my-1 text-white"
                 type="file"
                 name="media"
-                accept=".jpg, .jpeg, .png"
+                accept=".jpg, .jpeg, .png, .gif"
                 onChange={handleFileInput}
               />
             </div>
 
-            <div className="my-2">
-              <ReCAPTCHA
-                sitekey="6LeogPkaAAAAAM0jcHhbPKEbcrr4pWQeXji6ytQx"
-                onChange={verifyCallback}
-              />
-            </div>
+            {!isVip && (
+              <div className="my-2">
+                <ReCAPTCHA
+                  sitekey="6LeogPkaAAAAAM0jcHhbPKEbcrr4pWQeXji6ytQx"
+                  onChange={verifyCallback}
+                />
+              </div>
+            )}
 
             <div className="my-2">
               <input
+                disabled={loading}
                 type="submit"
-                className="ml-4 w-1/3 bg-red text-white rounded-md hover:bg-opacity-60"
-                value="Post"
+                className="w-1/3 p-2 bg-red text-white rounded-md hover:bg-opacity-60"
+                value={loading ? 'Posting...' : 'Post'}
               />
             </div>
           </form>

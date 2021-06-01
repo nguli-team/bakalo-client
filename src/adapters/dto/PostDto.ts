@@ -17,4 +17,6 @@ export default class PostDto {
   readonly created_at: number;
 
   readonly updated_at: number;
+
+  readonly is_you: boolean;
 }
