@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Thread } from '../../domain/model';
 
 const ThreadCard: React.FC<Thread> = (props) => {
-  const { id, title, op, posterCount, mediaCount } = props;
+  const { id, title, op, replyCount, posterCount, mediaCount } = props;
   return (
     <div className="rounded shadow-md bg-purple-light text-white m-1 p-3">
       <Link
@@ -13,7 +13,7 @@ const ThreadCard: React.FC<Thread> = (props) => {
         {op.mediaUrl && <img src={op.mediaUrl} alt={title} />}
         <div className="col-span-3 lg:text-center text-left">
           <h3 className="font-bold">{title}</h3>
-          <p className="text-sm tracking-tighter">{`${posterCount} user posted ${mediaCount} media`}</p>
+          <p className="text-sm tracking-tighter">{`${replyCount} replies | ${posterCount} user posted | ${mediaCount} media`}</p>
           <p>{op.text}</p>
         </div>
       </Link>

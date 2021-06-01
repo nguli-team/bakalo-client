@@ -69,7 +69,7 @@ const PostCard: React.FC<Post> = (props) => {
           {mediaUrl && <img className="lg:w-full w-1/4" src={mediaUrl} alt={mediaUrl} />}
           {isMobile && (
             <a href={`#${refNo}`} className="text-xs tracking-tighter ml-1">
-              <span className="font-semibold text-cyan">{name || 'Anonymous'}</span>
+              <span className="font-semibold text-cyan">{isYou ? 'You' : name || 'Anonymous'}</span>
               {` No.${id} ${new Date(createdAt).toLocaleString()}`}
             </a>
           )}

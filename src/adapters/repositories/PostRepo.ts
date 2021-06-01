@@ -51,7 +51,7 @@ export default class PostRepo implements IPostRepo {
       replies: [],
       posterId: postDto.poster_id,
       mediaUrl: postDto.media_file_name
-        ? `http://localhost:8081/${postDto.media_file_name}`
+        ? `${process.env.REACT_APP_MEDIA_SERVER}${postDto.media_file_name}`
         : undefined,
       name: postDto.name,
       text: postDto.text,

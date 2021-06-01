@@ -34,7 +34,9 @@ const OP: React.FC<{ op: Post; title: string }> = (props) => {
             <div className="ml-1">
               <h3 className="text-sm font-semibold">{title}</h3>
               <p className="text-xs tracking-tighter">
-                <span className="font-semibold text-cyan">{op.name || 'Anonymous'}</span>
+                <span className="font-semibold text-cyan">
+                  {op.isYou ? 'You' : op.name || 'Anonymous'}
+                </span>
                 {` No.${op.refNo} ${new Date(op.createdAt).toLocaleString()}`}
               </p>
             </div>
@@ -45,7 +47,9 @@ const OP: React.FC<{ op: Post; title: string }> = (props) => {
             <div>
               <h3 className="text-lg font-semibold">{title}</h3>
               <p className="text-sm tracking-tighter">
-                <span className="font-semibold text-cyan">{op.name || 'Anonymous'}</span>
+                <span className="font-semibold text-cyan">
+                  {op.isYou ? 'You' : op.name || 'Anonymous'}
+                </span>
                 {` No.${op.id} ${new Date(op.createdAt).toLocaleString()}`}
               </p>
             </div>

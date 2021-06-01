@@ -50,7 +50,7 @@ export default class BookmarkRepo implements IBookmarkRepo {
       threadId: threadDto.op.thread_id,
       replies: [],
       posterId: threadDto.op.poster_id,
-      mediaUrl: `http://localhost:8081/${threadDto.op.media_file_name}`,
+      mediaUrl: `${process.env.REACT_APP_MEDIA_SERVER}${threadDto.op.media_file_name}`,
       name: threadDto.op.name,
       text: threadDto.op.text,
       createdAt: threadDto.op.created_at,

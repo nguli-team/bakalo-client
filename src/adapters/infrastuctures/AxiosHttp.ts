@@ -6,7 +6,7 @@ export default class AxiosHttp implements Required<Http> {
 
   constructor() {
     this.client = axios;
-    this.client.defaults.baseURL = 'http://localhost:8080/v1/';
+    this.client.defaults.baseURL = process.env.REACT_APP_API;
   }
 
   async get<T>(url: string, headers?: HttpHeader, extraConfig?: HttpExtraConfig): Promise<T> {
