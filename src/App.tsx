@@ -14,6 +14,14 @@ import ResetPass from './web/pages/ResetPass';
 import { checkVip } from './web/redux/VipAction';
 
 ReactModal.setAppElement('#modal-root');
+const contextClass: { [type: string]: string } = {
+  success: 'bg-green-500',
+  error: 'bg-red',
+  info: 'bg-cyan',
+  warning: 'bg-yellow',
+  default: 'bg-purple-light',
+  dark: 'bg-purple-light'
+};
 
 export default function App(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,16 +29,24 @@ export default function App(): JSX.Element {
   return (
     <div className="bg-purple-gradient min-h-screen flex flex-col">
       <Router>
-        <div className="flex-grow">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/VIP/" component={VIP} />
-            <Route exact path="/Reset/" component={ResetPass} />
-            <Route exact path="/:boardShorthand/" component={BoardPage} />
-            <Route path="/:boardShorthand/:threadId" component={ThreadPage} />
-          </Switch>
-          <ToastContainer />
-        </div>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/VIP/" component={VIP} />
+          <Route exact path="/Reset/" component={ResetPass} />
+          <Route exact path="/:boardShorthand/" component={BoardPage} />
+          <Route path="/:boardShorthand/:threadId" component={ThreadPage} />
+        </Switch>
+        <ToastContainer
+          toastClassName={(type) =>
+            `${
+              contextClass[type?.type || 'default']
+            } relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer`
+          }
+          bodyClassName={() => 'text-sm font-med block p-3'}
+          hideProgressBar
+          position="top-right"
+          autoClose={3000}
+        />
         <Footer />
       </Router>
     </div>

@@ -36,30 +36,21 @@ const BoardPage: React.FC = () => {
 
   const threads = useSelector((state: RootState) => state.BoardReducer.threadList);
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+    setIsOpen((wasOpen) => !wasOpen);
   };
 
   return (
-    <div>
+    <div className="flex-grow">
       <Navbar />
-      {boardLoading && (
-        <div className="w-full min-h-full text-center text-white text-3xl flex justify-center align-middle">
-          Loading...
-        </div>
-      )}
+      {boardLoading && <div className="mt-64 text-center text-white text-3xl">Loading...</div>}
       {!boardLoading && (
         <div className="my-4 grid justify-items-center align-bottom">
           <BoardHeader toggleModal={toggleModal} />
-          {threads.length > 0 && <Catalog threads={threads} />}
-          {threads.length === 0 && (
-            <div className="m-auto ">
-              <p className="text-2xl text-white text-center">There are no thread at this moment</p>
-            </div>
-          )}
-          <CreateThreadModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+          <Catalog threads={threads} />
+          <CreateThreadModal isOpen={isOpen} closeModal={toggleModal} />
         </div>
       )}
     </div>

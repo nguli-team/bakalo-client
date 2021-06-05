@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Modal from './ModalOverlay';
@@ -86,18 +86,11 @@ const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisibl
                 />
               </div>
               {/* eslint jsx-a11y/label-has-associated-control: ["error", { assert: "either" } ] */}
-              <div className="flex-row my-3 text-sm text-white">
-                <input type="checkbox" id="remember" />
-                <label htmlFor="remember"> Ingat Perangkat Ini</label>
-              </div>
               <input
                 type="submit"
                 className="ml-4 w-1/4 bg-white rounded-md hover:bg-opacity-60"
                 value="Submit"
               />
-              <Link to="/Reset" className="mt-5 text-white text-xs hover:text-yellow">
-                Lupa PIN?
-              </Link>
             </div>
           </form>
         </div>

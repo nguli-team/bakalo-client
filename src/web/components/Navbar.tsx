@@ -5,6 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useSelector } from 'react-redux';
 import { MenuIcon, ChevronDownIcon, BookmarkIcon, ArrowLeftIcon } from '@heroicons/react/solid';
 import { BookmarkIcon as BookmarkIconOutline } from '@heroicons/react/outline';
+import Modal from 'react-modal';
 import Sidebar from './Sidebar';
 import { RootState } from '../redux/store';
 import di from '../di';
@@ -28,7 +29,10 @@ const Navbar: React.FC = () => {
   const toggleDropdown = () => setDropDown(!dropDown);
 
   const [sidebar, setSidebar] = useState(false);
-  const toggleSidebar = () => setSidebar(!sidebar);
+  const toggleSidebar = () => {
+    setSidebar(!sidebar);
+    setDropDown(false);
+  };
 
   const [bookmark, setBookmark] = useState(activeThread?.isBookmarked);
 
@@ -82,7 +86,7 @@ const Navbar: React.FC = () => {
             <div className="dropdown inline-block p-2 w-full">
               <button
                 type="button"
-                className="text-white font-semibold px-2 rounded inline-flex items-center w-full justify-between"
+                className="text-white font-semibold px-2 rounded inline-flex items-center w-full justify-between focus:outline-none"
                 onClick={toggleDropdown}
               >
                 <span>
@@ -90,8 +94,13 @@ const Navbar: React.FC = () => {
                 </span>
                 <ChevronDownIcon className="h-5 sm:w-10 mt-1" />
               </button>
-              {dropDown && (
-                <ul className="dropdown-menu p-3 absolute block bg-purple-darkLight w-3/4 shadow-2xl">
+              <Modal
+                isOpen={dropDown}
+                onRequestClose={toggleDropdown}
+                overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50 grid"
+                className="justify-self-center self-start mt-14"
+              >
+                <ul className="p-3 block bg-purple-darkLight shadow-2xl">
                   {boardList.map((board) => {
                     return (
                       <li>
@@ -108,7 +117,7 @@ const Navbar: React.FC = () => {
                     );
                   })}
                 </ul>
-              )}
+              </Modal>
             </div>
           )}
         </div>

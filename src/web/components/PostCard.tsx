@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { TrashIcon } from '@heroicons/react/solid';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
@@ -9,14 +8,26 @@ import RepliesModal from './RepliesModal';
 import CreatePostModal from './CreatePostModal';
 import { AppDispatch } from '../redux/store';
 import { deletePost, getPosts } from '../redux/PostMiddleware';
+import MediaContainer from './MediaContainer';
 
 const PostCard: React.FC<Post> = (props) => {
-  const { id, threadId, refNo, mediaUrl, name, createdAt, text, replies, isYou } = props;
+  const {
+    id,
+    threadId,
+    refNo,
+    mediaUrl,
+    mediaFileName,
+    name,
+    createdAt,
+    text,
+    replies,
+    isYou
+  } = props;
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [replyModalIsOpen, setReplyIsOpen] = React.useState(false);
 
   function toggleModal() {
-    setIsOpen((modalWasOpen) => !modalWasOpen);
+    setReplyIsOpen((modalWasOpen) => !modalWasOpen);
   }
 
   const [postModalIsOpen, setPostModal] = React.useState(false);
@@ -24,14 +35,6 @@ const PostCard: React.FC<Post> = (props) => {
   function togglePostModal() {
     setPostModal((modalWasOpen) => !modalWasOpen);
   }
-
-  const isDesktop = useMediaQuery({
-    query: '(min-device-width: 	1280px)'
-  });
-
-  const isMobile = useMediaQuery({
-    query: '(max-device-width: 640px)'
-  });
 
   const [deletable, setDeletable] = useState(isYou && (Date.now() - createdAt) / 1000 < 60);
   const [timeLeft, setTimeLeft] = useState(60 - (Date.now() - createdAt) / 1000);
@@ -56,67 +59,62 @@ const PostCard: React.FC<Post> = (props) => {
     try {
       await dispatch(deletePost(id));
       await dispatch(getPosts(threadId));
-      return toast.info('Delete Success!');
+      return toast.info('Pos berhasil dihapus!');
     } catch (err) {
-      return toast.error('Delete Failed!');
+      return toast.error('Pos gagal dihapus!');
     }
   };
 
   return (
     <div className="rounded-md shadow-md bg-purple-dark m-1 p-3 text-white" id={`${refNo}`}>
-      <div className="flex-shrink flex lg:flex-row flex-col">
-        <div className="lg:max-w-xs sm:max-w-full flex lg:flex-col sm:flex-row justify-items-center items-start lg:px-7 sm:py-3">
-          {mediaUrl && <img className="lg:w-full w-1/4" src={mediaUrl} alt={mediaUrl} />}
-          {isMobile && (
-            <a href={`#${refNo}`} className="text-xs tracking-tighter ml-1">
-              <span className="font-semibold text-cyan">{isYou ? 'You' : name || 'Anonymous'}</span>
-              {` No.${id} ${new Date(createdAt).toLocaleString()}`}
-            </a>
-          )}
-        </div>
-        <div className="flex-grow">
-          {isDesktop && (
-            <div className="flex flex-row justify-between">
-              <a href={`#${refNo}`} className="text-sm tracking-tighter">
-                <span className="font-semibold text-cyan">
-                  {isYou ? 'You' : name || 'Anonymous'}
-                </span>
-                {` No.${refNo} ${new Date(createdAt).toLocaleString()}`}
-              </a>
-              {deletable && isYou && (
-                <button type="button" onClick={handleDeletePost}>
-                  <TrashIcon className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-          )}
-          <p className="my-5 lg:text-base text-sm whitespace-pre-wrap break-words">
+      <div className="grid grid-cols-5 gap-2">
+        {mediaUrl && (
+          <div className="col-span-1">
+            <MediaContainer mediaUrl={mediaUrl} mediaFileName={mediaFileName} />
+          </div>
+        )}
+        <div className={`${mediaUrl ? 'col-span-4' : 'col-span-5'} flex flex-col justify-between`}>
+          <div className="flex flex-row justify-between">
+            <p className="text-sm tracking-tighter">
+              <span className="font-semibold text-cyan">{isYou ? 'Anda' : name || 'Anonim'}</span>
+              {` No.${refNo} ${new Date(createdAt).toLocaleString()}`}
+            </p>
+            {deletable && isYou && (
+              <button type="button" onClick={handleDeletePost}>
+                <TrashIcon className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+          <p className="flex-grow my-2 lg:text-base text-sm whitespace-pre-wrap break-words">
             {reactStringReplace(text, />>(\d+)/gm, (match) => (
               <a key={match} href={`#${match}`} className="text-yellow">
-                {`>>${match}`}
+                <span>
+                  {`>>${match}`}
+                  {isYou && ' (Anda)'}
+                </span>
               </a>
             ))}
           </p>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-2 justify-start">
             {replies.length > 0 && (
               <button
                 type="button"
                 onClick={toggleModal}
-                className="text-sm tracking-tighter"
-              >{`${replies?.length} replies`}</button>
+                className="text-xs tracking-tighter rounded-sm font-semibold"
+              >{`${replies?.length} balasan`}</button>
             )}
-            <button type="button" onClick={togglePostModal} className="text-sm tracking-tighter">
-              Reply to this post
+            <button
+              type="button"
+              onClick={togglePostModal}
+              className="text-xs tracking-tighter rounded-sm font-semibold bg-red px-1"
+            >
+              Balas pos ini
             </button>
           </div>
-          <RepliesModal isOpen={modalIsOpen} closeModal={toggleModal} replies={replies} />
-          <CreatePostModal
-            isModalVisible={postModalIsOpen}
-            onBackdropClick={togglePostModal}
-            refNo={refNo}
-          />
         </div>
       </div>
+      <RepliesModal isOpen={replyModalIsOpen} closeModal={toggleModal} replies={replies} />
+      <CreatePostModal isOpen={postModalIsOpen} closeModal={togglePostModal} refNo={refNo} />
     </div>
   );
 };

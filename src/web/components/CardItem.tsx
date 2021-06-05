@@ -15,7 +15,7 @@ const CardItem: React.FC<Properties> = (props) => {
   return (
     <div className="rounded border border-white bg-purple-light">
       <Link to={path}>
-        <figure className="card-item-pic-wrap" data-category={label}>
+        <figure className="card-item-pic-wrap rounded-t" data-category={label}>
           {src && <img className="card-item-img" alt={label} src={src} />}
         </figure>
         <div className="p-5">

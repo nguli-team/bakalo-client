@@ -53,6 +53,7 @@ export default class PostRepo implements IPostRepo {
       mediaUrl: postDto.media_file_name
         ? `${process.env.REACT_APP_MEDIA_SERVER}${postDto.media_file_name}`
         : undefined,
+      mediaFileName: postDto.media_file_name || undefined,
       name: postDto.name,
       text: postDto.text,
       createdAt: postDto.created_at * 1000,

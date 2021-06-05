@@ -4,14 +4,14 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from './ModalOverlay';
+import Modal from 'react-modal';
 import { AppDispatch, RootState } from '../redux/store';
 import { CreatePostDto } from '../../adapters/dto';
 import { createPost, getPosts } from '../redux/PostMiddleware';
 
 interface ModalProps {
-  isModalVisible: boolean;
-  onBackdropClick: () => void;
+  isOpen: boolean;
+  closeModal: () => void;
   refNo?: number;
 }
 
@@ -24,7 +24,7 @@ interface FormData {
   threadId: number;
 }
 
-const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible, refNo }) => {
+const CreatePostModal: React.FC<ModalProps> = ({ closeModal, isOpen, refNo }) => {
   const { threadId } = useParams<{ threadId: string }>();
   const threadIdNum = Number(threadId);
   const isVip = useSelector((state: RootState) => state.VipReducer.isVip);
@@ -82,9 +82,14 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
       text: formData.text,
       recaptcha_response: formData.recaptchaResponse
     };
-    await dispatch(createPost(createPostDto));
-    await dispatch(getPosts(threadIdNum));
-    onBackdropClick();
+    try {
+      await dispatch(createPost(createPostDto));
+      await dispatch(getPosts(threadIdNum));
+      toast('Balasan berhasil dipos');
+      closeModal();
+    } catch (err) {
+      toast.error('Balasan gagal dipos');
+    }
   };
 
   const verifyCallback = (response: string | null) => {
@@ -94,14 +99,15 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
     }
   };
 
-  if (!isModalVisible) {
-    return null;
-  }
-
   return (
     <div className="flex relative flex-col">
-      <Modal onBackdropClick={onBackdropClick}>
-        <div className="p-6 sm:w-96 rounded-md shadow-xl bg-purple-light">
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50 grid"
+        className="place-self-center"
+      >
+        <div className="p-4 sm:w-96 rounded-md shadow-xl bg-purple-light">
           <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
             <div className="flex flex-col">
               <div className="w-full">
@@ -109,15 +115,16 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
                   className="mb-3 p-1 w-full"
                   type="text"
                   name="posterName"
-                  placeholder="Name (Anonymous)"
+                  placeholder="Nama (Anonim)"
                   value={formData.posterName}
                   onChange={handleInputChange}
                 />
               </div>
               <textarea
-                className="h-32 mb-3 p-1"
+                className="h-32 mb-3 p-1 resize-y"
                 name="text"
-                placeholder="Comment"
+                placeholder="Komentar"
+                required
                 value={formData.text}
                 onChange={handleInputChange}
               />
@@ -140,7 +147,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible
               </div>
             )}
 
-            <div className="my-2">
+            <div className="my-2 flex flex-row justify-center">
               <input
                 disabled={loading}
                 type="submit"

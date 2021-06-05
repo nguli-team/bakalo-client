@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -99,15 +98,7 @@ const VIP: React.FC = () => {
                 </p>
 
                 <p className="mt-2">
-                  Lupa PIN? Reset di{' '}
-                  <Link to="/Reset/" className="text-yellow hover:opacity-60">
-                    {' '}
-                    sini.
-                  </Link>{' '}
-                </p>
-
-                <p className="mt-2">
-                  Jika Anda kesulitan membeli bakalo Pass, silakan kirim email ke bakalo@lolo.com
+                  Jika Anda kesulitan membeli bakalo Pass, silakan kirim email ke support@bakalo.li
                 </p>
               </div>
             </div>

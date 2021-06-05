@@ -19,10 +19,11 @@ const CreatePostModal: React.FC<ModalProps> = ({ isOpen, closeModal, replies }) 
   return (
     <Modal
       isOpen={isOpen}
-      overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50"
-      className="w-full h-full grid justify-center items-center"
+      onRequestClose={closeModal}
+      overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50 grid"
+      className="place-self-center"
     >
-      <div className="grid justify-items-stretch items-center">
+      <div className="max-w-md grid justify-items-stretch items-center">
         {replyPosts.map((post) => (
           <ReplyCard
             key={`reply-${post.id}`}

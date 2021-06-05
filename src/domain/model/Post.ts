@@ -6,6 +6,7 @@ export default interface Post {
   replies: number[];
   posterId: string;
   mediaUrl?: string;
+  mediaFileName?: string;
   name?: string;
   text: string;
   createdAt: number;

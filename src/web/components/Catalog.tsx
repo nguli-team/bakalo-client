@@ -24,8 +24,14 @@ const Catalog: React.FC<{ threads: Thread[] }> = (props) => {
     />
   ));
   return (
-    <div className="container p-3 grid lg:grid-cols-4 sm:grid-cols-2 lg:gap-5 sm:gap-3">
-      {threadsMarkup}
+    <div className="container min-h-full p-3 grid lg:grid-cols-4 grid-cols-1 lg:gap-5 sm:gap-3">
+      {threads.length > 0 ? (
+        threadsMarkup
+      ) : (
+        <div className="col-span-4 place-self-center">
+          <p className="text-2xl text-white text-center">Belum ada thread</p>
+        </div>
+      )}
     </div>
   );
 };
