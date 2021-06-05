@@ -34,29 +34,25 @@ const ThreadPage: React.FC = () => {
   const thread = useSelector((state: RootState) => state.ThreadReducer.activeThread);
   const replies = useSelector((state: RootState) => state.ThreadReducer.posts);
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+    setIsOpen((wasOpen) => !wasOpen);
   };
 
   return (
-    <div>
+    <div className="flex-grow">
       <Navbar />
-      {loading && (
-        <div className="w-full min-h-full text-center text-white text-3xl flex justify-center align-middle">
-          Loading...
-        </div>
-      )}
+      {loading && <div className="mt-64 text-center text-white text-3xl">Loading...</div>}
       {!loading && (
         <div className="my-7 lg:mx-96 grid justify-items-center align-start">
           <BoardHeader toggleModal={toggleModal} />
           {replies.length > 0 && <ThreadPosts title={thread?.title as string} posts={replies} />}
           {replies.length === 0 && (
             <div className="m-auto">
-              <p className="text-2xl text-white text-center">There are no replies at this moment</p>
+              <p className="text-2xl text-white text-center">Belum ada balasan</p>
             </div>
           )}
-          <CreatePostModal isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+          <CreatePostModal isOpen={isOpen} closeModal={toggleModal} />
         </div>
       )}
     </div>

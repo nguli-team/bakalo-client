@@ -12,7 +12,7 @@ const BoardsSection: React.FC<Props> = (props) => {
 
   const boardsMarkup = boardList.map((board) => (
     <Link
-      className="p-2 text-center lg:text-base text-xs"
+      className="p-2 text-center lg:text-base text-xs hover:text-cyan"
       key={board.shorthand}
       to={`/${board.shorthand}/`}
     >

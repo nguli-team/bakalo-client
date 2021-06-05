@@ -20,7 +20,7 @@
 }
 
 body::-webkit-scrollbar {
-  @apply bg-white w-2.5
+  @apply bg-purple-light w-2
 }
 
 body::-webkit-scrollbar-track {

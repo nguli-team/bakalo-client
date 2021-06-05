@@ -28,6 +28,17 @@ const ThreadPosts: React.FC<{ title: string; posts: Post[] }> = (props) => {
     );
   });
 
-  return <div className="container sm:p-2 grid gap-3">{postsMarkup}</div>;
+  return (
+    <div className="container sm:p-2 grid gap-2">
+      {posts.length > 1 ? (
+        postsMarkup
+      ) : (
+        <div className="grid gap-7">
+          <OP key={posts[0].id} op={posts[0]} title={title} />
+          <p className="text-2xl text-white text-center">Belum ada balasan</p>
+        </div>
+      )}
+    </div>
+  );
 };
 export default ThreadPosts;

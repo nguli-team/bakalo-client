@@ -59,7 +59,10 @@ export default class ThreadRepo implements IThreadRepo {
       threadId: threadDto.op.thread_id,
       replies: [],
       posterId: threadDto.op.poster_id,
-      mediaUrl: `${process.env.REACT_APP_MEDIA_SERVER}${threadDto.op.media_file_name}`,
+      mediaUrl: threadDto.op.media_file_name
+        ? `${process.env.REACT_APP_MEDIA_SERVER}${threadDto.op.media_file_name}`
+        : undefined,
+      mediaFileName: threadDto.op.media_file_name || undefined,
       name: threadDto.op.name,
       text: threadDto.op.text,
       createdAt: threadDto.op.created_at * 1000,

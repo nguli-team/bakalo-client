@@ -3,15 +3,17 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from './ModalOverlay';
+import Modal from 'react-modal';
+import { Redirect } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../redux/store';
 import { Board } from '../../domain/model';
 import { CreateThreadDto } from '../../adapters/dto';
 import { createThread, getThreads } from '../redux/ThreadMiddleware';
 
 interface ModalProps {
-  isModalVisible: boolean;
-  onBackdropClick: () => void;
+  isOpen: boolean;
+  closeModal: () => void;
 }
 
 interface FormData {
@@ -22,7 +24,7 @@ interface FormData {
   recaptchaResponse?: string;
 }
 
-const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible }) => {
+const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
   const activeBoard = useSelector((state: RootState) => state.BoardReducer.activeBoard) as Board;
   const isVip = useSelector((state: RootState) => state.VipReducer.isVip);
   const loading = useSelector((state: RootState) => state.ThreadReducer.loading);
@@ -67,13 +69,21 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     if (!formData.recaptchaResponse && !isVip) {
-      toast.error('Please verify that you are a human');
+      toast.error('Pastikan anda sudah mengisi captcha');
       return;
     }
     const createThreadDto: CreateThreadDto = { ...formData, board_id: activeBoard.id };
-    await dispatch(createThread(createThreadDto));
-    await dispatch(getThreads(activeBoard.id));
-    onBackdropClick();
+    try {
+      const result = await dispatch(createThread(createThreadDto));
+      await dispatch(getThreads(activeBoard.id));
+      const newThreadId = unwrapResult(result).id;
+      toast('Thread berhasil dibuat. Klik untuk membuka thread', {
+        onClick: () => <Redirect to={`/${newThreadId}`} />
+      });
+      closeModal();
+    } catch (err) {
+      toast.error('Thread gagal dibuat');
+    }
   };
 
   const verifyCallback = (response: string | null) => {
@@ -82,22 +92,23 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
     }
   };
 
-  if (!isModalVisible) {
-    return null;
-  }
-
   return (
     <div className="flex relative flex-col">
-      <Modal onBackdropClick={onBackdropClick}>
-        <div className="p-6 sm:w-96 rounded-md shadow-xl bg-purple-light">
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50 grid"
+        className="place-self-center"
+      >
+        <div className="p-4 sm:w-96 rounded-md shadow-xl bg-purple-light">
           <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center items-stretch">
               <div className="w-full">
                 <input
                   className="mb-3 p-1 w-full"
                   type="text"
                   name="title"
-                  placeholder="Title"
+                  placeholder="Judul"
                   value={formData.title}
                   onChange={handleInputChange}
                 />
@@ -105,15 +116,15 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
                   className="mb-3 p-1 w-full"
                   type="text"
                   name="posterName"
-                  placeholder="Name (Anonymous)"
+                  placeholder="Nama (Anonim)"
                   value={formData.name}
                   onChange={handleInputChange}
                 />
               </div>
               <textarea
-                className="h-32 mb-3 p-1"
+                className="h-32 mb-3 p-1 resize-y"
                 name="text"
-                placeholder="Comment"
+                placeholder="Komentar"
                 value={formData.text}
                 onChange={handleInputChange}
               />
@@ -134,7 +145,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ onBackdropClick, isModalVisib
                 />
               </div>
             )}
-            <div className="my-2">
+            <div className="my-2 flex flex-row justify-center">
               <input
                 disabled={loading}
                 type="submit"
