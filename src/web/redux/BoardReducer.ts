@@ -1,41 +1,66 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Board } from '../../domain/model';
-import { getBoards, getPopularThreads, getThreads, setActiveBoard } from './BoardAction';
-import boardlist from '../../utils/boardlist';
-import popularthreadlist from '../../utils/popularthreadlist';
-import threadlist from '../../utils/threadlist';
+import { Board, Thread } from '../../domain/model';
+import { clearThreadList, removeActiveBoard, setActiveBoard } from './BoardAction';
+import { getBoards } from './BoardMiddleware';
+import { getThreads } from './ThreadMiddleware';
 
 export interface BoardState {
   boardList: Board[];
   activeBoard?: Board;
-  popularThreads: typeof popularthreadlist;
-  threadList: typeof threadlist;
+  threadList: Thread[];
+  loading: boolean;
+  error?: string;
 }
 
 const initialState: BoardState = {
   boardList: [],
   activeBoard: undefined,
   threadList: [],
-  popularThreads: []
+  loading: false,
+  error: undefined
 };
 
 const BoardReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(getBoards, (state) => ({
+    .addCase(getBoards.pending, (state) => ({
       ...state,
-      boardList: boardlist
+      loading: true
+    }))
+    .addCase(getBoards.fulfilled, (state, action) => ({
+      ...state,
+      loading: false,
+      boardList: action.payload
+    }))
+    .addCase(getBoards.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.error.message
+    }))
+    .addCase(getThreads.pending, (state) => ({
+      ...state,
+      loading: true
+    }))
+    .addCase(getThreads.fulfilled, (state, action) => ({
+      ...state,
+      loading: false,
+      threadList: action.payload
+    }))
+    .addCase(getThreads.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.error.message
     }))
     .addCase(setActiveBoard, (state, action) => ({
       ...state,
       activeBoard: state.boardList.find((b) => b.shorthand === action.payload.boardShorthand)
     }))
-    .addCase(getThreads, (state) => ({
+    .addCase(removeActiveBoard, (state) => ({
       ...state,
-      threadList: threadlist
+      activeBoard: undefined
     }))
-    .addCase(getPopularThreads, (state) => ({
+    .addCase(clearThreadList, (state) => ({
       ...state,
-      popularThreads: popularthreadlist
+      threadList: []
     }))
 );
 

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const getBoards = createAction('board/get');
-export const setActiveBoard = createAction<{ boardShorthand: string }>('board/setActive');
-export const getThreads = createAction<{ boardId: number }>('board/getThreads');
-export const getPopularThreads = createAction('board/getPopularThreads');
+// eslint-disable-next-line import/prefer-default-export
+export const setActiveBoard = createAction<{ boardShorthand: string }>('[Boards] Set Active Board');
+export const removeActiveBoard = createAction('[Boards] Remove Active Board');
+export const clearThreadList = createAction('[Boards] Clear Thread List');

@@ -1,9 +1,15 @@
 export default interface Post {
   id: number;
-  repliedTo?: string;
+  refNo: number;
+  threadId: number;
+  title?: string;
+  replies: number[];
   posterId: string;
   mediaUrl?: string;
-  posterName?: string;
-  createdAt: Date;
-  desc: string;
+  mediaFileName?: string;
+  name?: string;
+  text: string;
+  createdAt: number;
+  updatedAt: number;
+  isYou: boolean;
 }

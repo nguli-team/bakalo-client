@@ -1,10 +1,18 @@
 import Post from './Post';
 
 export default interface Thread {
-  opId: number;
+  id: number;
+  boardId: number;
   title: string;
+  sticky: boolean;
+  locked: boolean;
+  opId: number;
+  op: Post;
   posterCount: number;
   replyCount: number;
   mediaCount: number;
-  op: Post;
+  createdAt: number;
+  updatedAt: number;
+  posts?: Post[];
+  isYou: boolean;
 }

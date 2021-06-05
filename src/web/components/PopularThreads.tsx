@@ -1,22 +1,43 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './Cards.css';
+import { useDispatch, useSelector } from 'react-redux';
 import CardItem from './CardItem';
-import { PopularThread } from '../../domain/model';
+import { Thread } from '../../domain/model';
+import { AppDispatch, RootState } from '../redux/store';
+import { getBoards } from '../redux/BoardMiddleware';
 
-const PopularThreads: React.FC<{ popularThreads: PopularThread[] }> = (props) => {
+const PopularThreads: React.FC<{ popularThreads: Thread[] }> = (props) => {
   const { popularThreads } = props;
+  const dispatch = useDispatch<AppDispatch>();
 
-  const threadMarkup = popularThreads.map((thread: PopularThread) => (
-    <div key={thread.opId} className="m-3">
-      <CardItem
-        src={thread.op?.mediaUrl}
-        thread={thread.title}
-        text={thread.op?.desc}
-        label={thread.board.title}
-        path={`/${thread.board.shorthand}/${thread.opId}`}
-      />
-    </div>
-  ));
+  const boards = useSelector((state: RootState) => state.BoardReducer.boardList);
+
+  const fetchBoards = useCallback(async () => {
+    if (boards.length === 0) {
+      dispatch(getBoards());
+    }
+  }, [boards.length, dispatch]);
+
+  useEffect(() => {
+    fetchBoards();
+  }, [fetchBoards]);
+
+  const findBoard = (boardId: number) => boards.find((board) => board.id === boardId);
+
+  const threadMarkup = popularThreads.map((thread: Thread) => {
+    const board = findBoard(thread.boardId);
+    return (
+      <div key={thread.id} className="m-3">
+        <CardItem
+          src={thread.op?.mediaUrl}
+          thread={thread.title}
+          text={thread.op?.text}
+          label={board?.name || ''}
+          path={`/${board?.shorthand}/${thread.id}`}
+        />
+      </div>
+    );
+  });
 
   return (
     <div className="container mx-auto p-5">
