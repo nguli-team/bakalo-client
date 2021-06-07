@@ -25,7 +25,9 @@ const BoardPage: React.FC = () => {
     dispatch(setActiveBoard({ boardShorthand }));
     dispatch(clearThreadList());
     dispatch(removeActiveThread());
-    dispatch(getThreads(activeBoard.id));
+    if (activeBoard) {
+      dispatch(getThreads(activeBoard.id));
+    }
   }, [activeBoard, boardShorthand, boards.length, dispatch]);
 
   useEffect(() => {

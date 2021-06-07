@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Post, Thread } from '../../domain/model';
-import { getThread } from './ThreadMiddleware';
+import { deleteThread, getThread } from './ThreadMiddleware';
 import { createPost, deletePost, getPosts } from './PostMiddleware';
 import { removeActiveThread } from './ThreadAction';
 
@@ -55,16 +55,29 @@ const ThreadReducer = createReducer(initialState, (builder) =>
       loading: false,
       error: action.error.message
     }))
-    .addCase(createPost.pending, (state) => ({
+    .addCase(deleteThread.pending, (state) => ({
       ...state,
       loading: true
     }))
-    .addCase(createPost.fulfilled, (state) => {
+    .addCase(deleteThread.fulfilled, (state) => {
       return {
         ...state,
         loading: false
       };
     })
+    .addCase(deleteThread.rejected, (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.error.message
+    }))
+    .addCase(createPost.pending, (state) => ({
+      ...state,
+      loading: true
+    }))
+    .addCase(createPost.fulfilled, (state) => ({
+      ...state,
+      loading: false
+    }))
     .addCase(createPost.rejected, (state, action) => ({
       ...state,
       loading: false,
@@ -74,12 +87,10 @@ const ThreadReducer = createReducer(initialState, (builder) =>
       ...state,
       loading: true
     }))
-    .addCase(deletePost.fulfilled, (state) => {
-      return {
-        ...state,
-        loading: false
-      };
-    })
+    .addCase(deletePost.fulfilled, (state) => ({
+      ...state,
+      loading: false
+    }))
     .addCase(deletePost.rejected, (state, action) => ({
       ...state,
       loading: false,

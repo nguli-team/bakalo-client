@@ -41,3 +41,14 @@ export const createThread = createAsyncThunk<Thread, CreateThreadDto>(
     }
   }
 );
+
+export const deleteThread = createAsyncThunk<void, number>(
+  '[Thread] Delete Thread',
+  (threadId, thunkApi) => {
+    try {
+      return di.services.threadService.removeThread(threadId);
+    } catch (err) {
+      return thunkApi.rejectWithValue(err);
+    }
+  }
+);

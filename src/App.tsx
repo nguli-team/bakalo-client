@@ -11,7 +11,7 @@ import ThreadPage from './web/pages/ThreadPage';
 import BoardPage from './web/pages/BoardPage';
 import VIP from './web/pages/VIP';
 import ResetPass from './web/pages/ResetPass';
-import { checkVip } from './web/redux/VipAction';
+import { checkAccount } from './web/redux/VipAction';
 
 ReactModal.setAppElement('#modal-root');
 const contextClass: { [type: string]: string } = {
@@ -25,7 +25,7 @@ const contextClass: { [type: string]: string } = {
 
 export default function App(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  dispatch(checkVip());
+  dispatch(checkAccount());
   return (
     <div className="bg-purple-gradient min-h-screen flex flex-col">
       <Router>
@@ -40,7 +40,7 @@ export default function App(): JSX.Element {
           toastClassName={(type) =>
             `${
               contextClass[type?.type || 'default']
-            } relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer`
+            } relative flex p-1 min-h-10 lg:rounded-md justify-between overflow-hidden cursor-pointer`
           }
           bodyClassName={() => 'text-sm font-med block p-3'}
           hideProgressBar
