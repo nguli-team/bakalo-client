@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/solid';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import reactStringReplace from 'react-string-replace';
 import { Post } from '../../domain/model';
 import RepliesModal from './RepliesModal';
 import CreatePostModal from './CreatePostModal';
-import { AppDispatch } from '../redux/store';
+import { AppDispatch, RootState } from '../redux/store';
 import { deletePost, getPosts } from '../redux/PostMiddleware';
 import MediaContainer from './MediaContainer';
 
-const PostCard: React.FC<Post> = (props) => {
+const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const {
     id,
     threadId,
@@ -21,8 +21,11 @@ const PostCard: React.FC<Post> = (props) => {
     createdAt,
     text,
     replies,
-    isYou
-  } = props;
+    isYou,
+    posterId
+  } = post;
+
+  const isAdmin = useSelector((state: RootState) => state.VipReducer.isAdmin);
 
   const [replyModalIsOpen, setReplyIsOpen] = React.useState(false);
 
@@ -77,9 +80,10 @@ const PostCard: React.FC<Post> = (props) => {
           <div className="flex flex-row justify-between">
             <p className="text-sm tracking-tighter">
               <span className="font-semibold text-cyan">{isYou ? 'Anda' : name || 'Anonim'}</span>
+              <span className="font-semibold text-yellow">{` ID: ${posterId}`}</span>
               {` No.${refNo} ${new Date(createdAt).toLocaleString()}`}
             </p>
-            {deletable && isYou && (
+            {((deletable && isYou) || isAdmin) && (
               <button type="button" onClick={handleDeletePost}>
                 <TrashIcon className="w-4 h-4" />
               </button>

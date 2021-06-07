@@ -4,10 +4,12 @@ import IBookmarkRepo from './interfaces/BookmarkRepo';
 import { ThreadDto } from '../dto';
 
 export default class BookmarkRepo implements IBookmarkRepo {
+  private readonly bookmarkKey = 'bookmark';
+
   constructor(private readonly client: Http, private readonly localStorage: WebStorage) {}
 
   getBookmarkIds(): number[] {
-    return this.localStorage.getItem('bookmark') as number[];
+    return this.localStorage.getItem(this.bookmarkKey) as number[];
   }
 
   async getBookmarks(): Promise<Thread[]> {
@@ -23,18 +25,18 @@ export default class BookmarkRepo implements IBookmarkRepo {
     );
   }
 
-  createBookmark(opId: number): void {
+  createBookmark(threadId: number): void {
     const bookmarkIds = this.getBookmarkIds() || [];
 
-    bookmarkIds.push(opId);
-    return this.localStorage.setItem('bookmark', bookmarkIds);
+    bookmarkIds.push(threadId);
+    return this.localStorage.setItem(this.bookmarkKey, bookmarkIds);
   }
 
   removeBookmark(opId: number): void {
     const bookmarkIds = this.getBookmarkIds();
     const updatedBookmark = bookmarkIds?.filter((id) => id !== opId);
 
-    return this.localStorage.setItem('bookmark', updatedBookmark);
+    return this.localStorage.setItem(this.bookmarkKey, updatedBookmark);
   }
 
   private mapThreadDtoToThread = (threadDto: ThreadDto): Thread => ({

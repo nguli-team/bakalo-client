@@ -1,24 +1,27 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { loginVip, registerVip } from './VipMiddleware';
-import { checkVip } from './VipAction';
+import { checkAccount } from './VipAction';
 
 interface VipState {
   isVip: boolean;
+  isAdmin: boolean;
   loading: boolean;
   error?: string;
 }
 
 const initialState: VipState = {
   isVip: false,
+  isAdmin: false,
   loading: false,
   error: undefined
 };
 
 const VipReducer = createReducer(initialState, (builder) =>
   builder
-    .addCase(checkVip, (state, action) => ({
+    .addCase(checkAccount, (state, action) => ({
       ...state,
-      isVip: action.payload
+      isVip: action.payload.isVip,
+      isAdmin: action.payload.isAdmin
     }))
     .addCase(registerVip.pending, (state) => ({
       ...state,

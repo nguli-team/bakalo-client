@@ -4,12 +4,7 @@ import BoardDto from '../dto/BoardDto';
 import { Board } from '../../domain/model';
 
 export default class BoardRepo implements IBoardRepo {
-  // TODO: beresin kalo udah jadi endpoint nya
-  readonly client: Http;
-
-  constructor(client: Http) {
-    this.client = client;
-  }
+  constructor(private readonly client: Http) {}
 
   async getBoards(): Promise<Board[]> {
     const boardsDto = await this.client.get<BoardDto[]>('/boards');

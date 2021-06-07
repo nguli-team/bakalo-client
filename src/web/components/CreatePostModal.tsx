@@ -105,7 +105,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ closeModal, isOpen, refNo }) =>
         isOpen={isOpen}
         onRequestClose={closeModal}
         overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50 grid"
-        className="place-self-center"
+        className="place-self-center lg:w-min w-screen"
       >
         <div className="p-4 sm:w-96 rounded-md shadow-xl bg-purple-light">
           <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -124,6 +124,7 @@ const CreatePostModal: React.FC<ModalProps> = ({ closeModal, isOpen, refNo }) =>
                 className="h-32 mb-3 p-1 resize-y"
                 name="text"
                 placeholder="Komentar"
+                maxLength={500}
                 required
                 value={formData.text}
                 onChange={handleInputChange}
