@@ -31,7 +31,7 @@ const BoardPage: React.FC = () => {
   }, [activeBoard, boardShorthand, boards.length, dispatch]);
 
   useEffect(() => {
-    fetchPageData().catch(console.error);
+    fetchPageData();
   }, [fetchPageData]);
 
   const threads = useSelector((state: RootState) => state.BoardReducer.threadList);

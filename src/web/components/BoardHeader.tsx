@@ -52,7 +52,7 @@ const BoardHeader: React.FC<{ toggleModal: () => void }> = (props) => {
         >
           <img
             src={`${process.env.PUBLIC_URL}/assets/gifs/bakalo-${
-              Math.floor(Math.random() * 3) + 1
+              Math.floor(Math.random() * 2) + 2
             }.gif`}
             alt="beli-tiket-vip"
           />
