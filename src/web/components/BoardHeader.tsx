@@ -30,7 +30,7 @@ const BoardHeader: React.FC<{ toggleModal: () => void }> = (props) => {
           <button
             type="button"
             onClick={toggleModal}
-            className="max-w-md m-5 py-3 px-7 bg-red text-white rounded-md text-2xl"
+            className="max-w-md m-5 py-2 px-5 bg-red text-white rounded-md text-md font-semibold"
           >
             {threadId ? 'Balas Thread' : 'Mulai Thread Baru'}
           </button>
@@ -48,13 +48,13 @@ const BoardHeader: React.FC<{ toggleModal: () => void }> = (props) => {
       {!isVip && (
         <Link
           to="/VIP/"
-          className="m-auto w-3/4 flex justify-center items-center border-2 border-red p-2"
+          className="m-auto w-max flex justify-center items-center border-2 border-red p-2"
         >
           <img
             src={`${process.env.PUBLIC_URL}/assets/gifs/bakalo-${
               Math.floor(Math.random() * 3) + 1
             }.gif`}
-            alt="beli-vip-tiket"
+            alt="beli-tiket-vip"
           />
         </Link>
       )}

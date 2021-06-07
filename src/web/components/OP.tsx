@@ -4,8 +4,19 @@ import { Post } from '../../domain/model';
 import RepliesModal from './RepliesModal';
 import CreatePostModal from './CreatePostModal';
 
-const OP: React.FC<{ op: Post; title: string }> = (props) => {
-  const { title, op } = props;
+const OP: React.FC<{ title: string; op: Post }> = ({ title, op }) => {
+  const {
+    id,
+    refNo,
+    mediaUrl,
+    mediaFileName,
+    name,
+    createdAt,
+    text,
+    replies,
+    isYou,
+    posterId
+  } = op;
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -20,41 +31,38 @@ const OP: React.FC<{ op: Post; title: string }> = (props) => {
   }
 
   return (
-    <div className="rounded-md shadow-md m-1 p-3 bg-purple-dark text-white" id={`${op.refNo}`}>
+    <div className="rounded-md shadow-md m-1 p-3 bg-purple-dark text-white" id={`${refNo}`}>
       <div className="grid grid-cols-5 gap-2">
-        {op.mediaUrl && (
+        {mediaUrl && (
           <div className="col-span-1">
-            <a href={op.mediaUrl} rel="noreferrer" target="_blank">
-              <img src={op.mediaUrl} alt={op.mediaUrl} />
+            <a href={mediaUrl} rel="noreferrer" target="_blank">
+              <img src={mediaUrl} alt={mediaFileName} />
             </a>
           </div>
         )}
-        <div
-          className={`${op.mediaUrl ? 'col-span-4' : 'col-span-5'} flex flex-col justify-between`}
-        >
+        <div className={`${mediaUrl ? 'col-span-4' : 'col-span-5'} flex flex-col justify-between`}>
           <div>
             <h3 className="text-lg font-semibold">{title}</h3>
             <p className="text-sm tracking-tighter">
-              <span className="font-semibold text-cyan">
-                {op.isYou ? 'Anda' : op.name || 'Anonim'}
-              </span>
-              {` No.${op.id} ${new Date(op.createdAt).toLocaleString()}`}
+              <span className="font-semibold text-cyan">{isYou ? 'Anda' : name || 'Anonim'}</span>
+              <span className="font-semibold text-yellow">{` ID: ${posterId}`}</span>
+              {` No.${id} ${new Date(createdAt).toLocaleString()}`}
             </p>
           </div>
           <p className="flex-grow my-2 lg:text-base text-sm whitespace-pre-wrap break-words">
-            {reactStringReplace(op.text, />>(\d+)/gm, (match) => (
+            {reactStringReplace(text, />>(\d+)/gm, (match) => (
               <a key={match} href={`#${match}`} className="text-yellow">
                 {`>>${match}`}
               </a>
             ))}
           </p>
           <div className="flex flex-row gap-2 justify-start">
-            {op.replies.length > 0 && (
+            {replies.length > 0 && (
               <button
                 type="button"
                 onClick={toggleModal}
                 className="text-xs tracking-tighter rounded-sm font-semibold"
-              >{`${op.replies?.length} balasan`}</button>
+              >{`${replies?.length} balasan`}</button>
             )}
             <button
               type="button"
@@ -64,8 +72,8 @@ const OP: React.FC<{ op: Post; title: string }> = (props) => {
               Balas pos ini
             </button>
           </div>
-          <RepliesModal isOpen={modalIsOpen} closeModal={toggleModal} replies={op.replies} />
-          <CreatePostModal isOpen={postModalIsOpen} closeModal={togglePostModal} refNo={op.refNo} />
+          <RepliesModal isOpen={modalIsOpen} closeModal={toggleModal} replies={replies} />
+          <CreatePostModal isOpen={postModalIsOpen} closeModal={togglePostModal} refNo={refNo} />
         </div>
       </div>
     </div>

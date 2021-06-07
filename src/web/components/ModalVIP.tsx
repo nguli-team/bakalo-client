@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Modal from './ModalOverlay';
@@ -8,10 +8,10 @@ import { loginVip } from '../redux/VipMiddleware';
 
 interface ModalProps {
   isModalVisible: boolean;
-  onBackdropClick: () => void;
+  closeModal: () => void;
 }
 
-const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisible }) => {
+const BaseModalWrapper: React.FC<ModalProps> = ({ closeModal, isModalVisible }) => {
   const [loginForm, setLoginForm] = useState({
     token: '',
     pin: undefined
@@ -32,6 +32,7 @@ const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisibl
   };
 
   const dispatch = useDispatch<AppDispatch>();
+  const history = useHistory();
 
   const handleLoginSubmit = async (event: any) => {
     event.preventDefault();
@@ -42,9 +43,10 @@ const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisibl
           pin: Number(loginForm.pin)
         })
       );
+
       toast.success('Login Successful! Redirecting to Home', {
         onClose: () => {
-          return <Redirect to="" />;
+          return history.push('/');
         }
       });
     } catch (err) {
@@ -58,7 +60,7 @@ const BaseModalWrapper: React.FC<ModalProps> = ({ onBackdropClick, isModalVisibl
 
   return (
     <div className="flex relative flex-col">
-      <Modal onBackdropClick={onBackdropClick}>
+      <Modal onBackdropClick={closeModal}>
         <div className="p-6 sm:w-96 rounded-md shadow-xl bg-purple-light">
           <form method="post" onSubmit={handleLoginSubmit}>
             <div className="flex flex-col place-items-center">

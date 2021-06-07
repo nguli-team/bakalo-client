@@ -180,7 +180,7 @@ const VIP: React.FC = () => {
             </div>
           </div>
         </div>
-        <ModalVIP isModalVisible={isModalVisible} onBackdropClick={toggleModal} />
+        <ModalVIP isModalVisible={isModalVisible} closeModal={toggleModal} />
       </div>
     </div>
   );

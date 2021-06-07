@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../redux/store';
 import { Board } from '../../domain/model';
@@ -65,6 +65,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
   };
 
   const dispatch = useDispatch<AppDispatch>();
+  const history = useHistory();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -78,7 +79,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
       await dispatch(getThreads(activeBoard.id));
       const newThreadId = unwrapResult(result).id;
       toast('Thread berhasil dibuat. Klik untuk membuka thread', {
-        onClick: () => <Redirect to={`/${newThreadId}`} />
+        onClick: () => history.push(newThreadId.toString())
       });
       closeModal();
     } catch (err) {
@@ -98,7 +99,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
         isOpen={isOpen}
         onRequestClose={closeModal}
         overlayClassName="fixed top-0 bottom-0 left-0 right-0 w-screen h-screen bg-black bg-opacity-50 grid"
-        className="place-self-center"
+        className="place-self-center lg:w-min w-screen"
       >
         <div className="p-4 sm:w-96 rounded-md shadow-xl bg-purple-light">
           <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -125,6 +126,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
                 className="h-32 mb-3 p-1 resize-y"
                 name="text"
                 placeholder="Komentar"
+                maxLength={500}
                 value={formData.text}
                 onChange={handleInputChange}
               />

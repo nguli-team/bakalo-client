@@ -9,6 +9,10 @@ export default class VipService implements IVipService {
     return this.vipRepo.checkVip();
   }
 
+  checkAdmin(): boolean {
+    return this.vipRepo.checkAdmin();
+  }
+
   registerVip(createVipDto: CreateVipDto): Promise<VipDto> {
     return this.vipRepo.registerVip(createVipDto);
   }

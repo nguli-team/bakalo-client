@@ -25,12 +25,12 @@ const BoardPage: React.FC = () => {
     dispatch(setActiveBoard({ boardShorthand }));
     dispatch(clearThreadList());
     dispatch(removeActiveThread());
-    dispatch(getThreads(activeBoard.id));
+    if (activeBoard) {
+      dispatch(getThreads(activeBoard.id));
+    }
   }, [activeBoard, boardShorthand, boards.length, dispatch]);
 
   useEffect(() => {
-    // TODO: give feedback to UI
-    // eslint-disable-next-line no-console
     fetchPageData().catch(console.error);
   }, [fetchPageData]);
 
