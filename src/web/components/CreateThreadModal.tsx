@@ -110,6 +110,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
                   type="text"
                   name="title"
                   placeholder="Judul"
+                  required
                   value={formData.title}
                   onChange={handleInputChange}
                 />
@@ -126,6 +127,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
                 className="h-32 mb-3 p-1 resize-y"
                 name="text"
                 placeholder="Komentar"
+                required
                 maxLength={500}
                 value={formData.text}
                 onChange={handleInputChange}
@@ -136,6 +138,7 @@ const CreateThreadModal: React.FC<ModalProps> = ({ closeModal, isOpen }) => {
                 type="file"
                 name="media"
                 accept=".jpg, .jpeg, .png, .gif"
+                required
                 onChange={handleFileInput}
               />
             </div>

@@ -60,7 +60,7 @@ const ThreadCard: React.FC<Thread> = (props) => {
               </span>
             )}
           </p>
-          <p className="lg:text-base text-sm whitespace-pre-wrap break-words max-h-96 overflow-hidden">
+          <p className="lg:text-base text-sm max-h-96 overflow-hidden">
             {op.text.length > 200 ? `${op.text.substring(0, 200)}...` : op.text}
           </p>
         </div>

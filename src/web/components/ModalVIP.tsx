@@ -36,21 +36,20 @@ const BaseModalWrapper: React.FC<ModalProps> = ({ closeModal, isModalVisible }) 
 
   const handleLoginSubmit = async (event: any) => {
     event.preventDefault();
-    try {
-      await dispatch(
-        loginVip({
-          token: loginForm.token,
-          pin: Number(loginForm.pin)
-        })
-      );
-
-      toast.success('Login Successful! Redirecting to Home', {
+    const result = await dispatch(
+      loginVip({
+        token: loginForm.token,
+        pin: Number(loginForm.pin)
+      })
+    );
+    if (loginVip.fulfilled.match(result)) {
+      toast.success('Login Berhasil! Mengalihkan kembali ke Home', {
         onClose: () => {
           return history.push('/');
         }
       });
-    } catch (err) {
-      toast.error('Login Failed!');
+    } else {
+      toast.error('Login Gagal! Token atau Pin salah');
     }
   };
 
