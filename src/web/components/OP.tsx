@@ -5,18 +5,7 @@ import RepliesModal from './RepliesModal';
 import CreatePostModal from './CreatePostModal';
 
 const OP: React.FC<{ title: string; op: Post }> = ({ title, op }) => {
-  const {
-    id,
-    refNo,
-    mediaUrl,
-    mediaFileName,
-    name,
-    createdAt,
-    text,
-    replies,
-    isYou,
-    posterId
-  } = op;
+  const { refNo, mediaUrl, mediaFileName, name, createdAt, text, replies, isYou, posterId } = op;
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -46,7 +35,7 @@ const OP: React.FC<{ title: string; op: Post }> = ({ title, op }) => {
             <p className="text-sm tracking-tighter">
               <span className="font-semibold text-cyan">{isYou ? 'Anda' : name || 'Anonim'}</span>
               <span className="font-semibold text-yellow">{` ID: ${posterId}`}</span>
-              {` No.${id} ${new Date(createdAt).toLocaleString()}`}
+              {` No.${refNo} ${new Date(createdAt).toLocaleString()}`}
             </p>
           </div>
           <p className="flex-grow my-2 lg:text-base text-sm whitespace-pre-wrap break-words">
